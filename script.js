@@ -83,6 +83,7 @@ canvasContainer.addEventListener('wheel', handleTrackpadZoom);
 
 function addSquare() {
    console.log('hello')
+   
     const square = document.createElement('div');
     square.className = 'element';
     square.style.left = '10px';

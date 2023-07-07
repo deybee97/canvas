@@ -75,9 +75,10 @@
     width: 400px;
     height: 300px;
     margin: 0 auto;
-    /* position: relative; */
+    position: relative;
     transform-origin: 0 0; /* Added to set the origin of the transform */
     touch-action: none; /* Disable default touch gestures on the canvas */
+
   }
 
   .zoom-slider {
