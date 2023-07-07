@@ -63,7 +63,7 @@
     justify-content: center;
     /* width: 80%;*/
     height: 80%;
-    /* background-color: #007bff; */
+    background-color: #007bff;
     /* position: relative; */
     overflow: hidden; /* Added to hide the overflow during zooming */
     position: relative; /* Added to enable positioning of the slider */

@@ -12,9 +12,7 @@ let initialMouseY = 0;
 // iframe.style.width = `${canvasContainer.clientWidth}px`;
 // iframe.style.height = `${canvasContainer.clientHeight}px`;
 
-addButton.addEventListener('click', () => {
-  addSquare();
-});
+
 
 // Function to handle zooming
 function handleZoom() {
@@ -32,15 +30,6 @@ function handleZoom() {
 zoomRange.addEventListener('input', handleZoom);
 
 // Function to handle mouse movement
-function handleMouse(event) {
-  if (isMouseMoving) {
-    const offsetX = event.clientX - initialMouseX;
-    const offsetY = event.clientY - initialMouseY;
-
-    canvasContainer.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${zoomRange.value})`;
-    iframe.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${zoomRange.value})`;
-  }
-}
 
 // Event listeners for mouse movement
 canvasContainer.addEventListener('mousedown', function(event) {
@@ -51,7 +40,7 @@ canvasContainer.addEventListener('mousedown', function(event) {
     initialMouseY = event.clientY;
   }
 });
-document.addEventListener('mousemove', handleMouse);
+
 document.addEventListener('mouseup', function(event) {
   if (event.button === 0) {
     isMouseMoving = false;
@@ -81,22 +70,22 @@ function handleTrackpadZoom(event) {
 // Event listener for trackpad pinch-to-zoom
 canvasContainer.addEventListener('wheel', handleTrackpadZoom);
 
-function addSquare() {
-  const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-  const squareSize = 50;
-  const posX = 10;
-  const posY = 10;
+// function addSquare() {
+//   const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+//   const squareSize = 50;
+//   const posX = 10;
+//   const posY = 10;
 
-  const square = iframeDoc.createElement('div');
-  square.style.position = 'absolute';
-  square.style.width = `${squareSize}px`;
-  square.style.height = `${squareSize}px`;
-  square.style.left = `${posX}px`;
-  square.style.top = `${posY}px`;
-  square.style.backgroundColor = 'red';
+//   const square = iframeDoc.createElement('div');
+//   square.style.position = 'absolute';
+//   square.style.width = `${squareSize}px`;
+//   square.style.height = `${squareSize}px`;
+//   square.style.left = `${posX}px`;
+//   square.style.top = `${posY}px`;
+//   square.style.backgroundColor = 'red';
 
-  iframeDoc.body.appendChild(square);
-}
+//   iframeDoc.body.appendChild(square);
+// }
 
 
-addSquareButton.addEventListener('click', addSquare)
+// addSquareButton.addEventListener('click', addSquare)
