@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Photo Editing Web App</title>
+  <link rel="stylesheet" type="text/css" href="styles.css"/>
+</head>
+<body>
+    <div class="sidebar">
+        <h3>Elements</h3>
+        <button id="add-square-button">Add Square</button>
+    </div>
+      
+
+  <div class="main-container">
+    <div class="top-pane">
+      <!-- Add your top pane content here -->
+    </div>
+    <div class="canvas-container" id="canvas-container">
+      <div class="canvas" id="canvas"></div>
+    </div>
+    <div class="zoom-slider">
+      <input type="range" min="1" max="2" step="0.1" value="1.5" id="zoom-range">
+    </div>
+  </div>
+  <button  class="add-button" id="add-button">Add New Floor</button>
+
+ <script src="./script.js"></script>
+</body>
+</html>

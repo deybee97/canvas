@@ -1,0 +1,109 @@
+.sidebar {
+    width: 200px;
+    background-color: #f1f1f1;
+    padding: 20px;
+  }
+  
+  .sidebar h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .sidebar button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    /* cursor: pointer; */
+  }
+  
+  .sidebar button:hover {
+    background-color: #0056b3;
+  }
+  
+  .sidebar button:focus {
+    outline: none;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+  }
+
+  .top-pane {
+    height: 20%;
+    background-color: palegoldenrod;
+    /* padding: 10px; */
+    width: 100%; /* Adjust the width based on your canvas width */
+  }
+
+  .main-container {
+    flex-grow: 1;
+    position: relative; /* Added to enable positioning of the slider */
+    touch-action: none; /* Disable default touch gestures on the container */
+  }
+
+  .sidebar {
+    width: 200px;
+    background-color: #f1f1f1;
+    padding: 20px;
+  }
+
+  .canvas-container {
+
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* width: 80%;*/
+    height: 80%;
+    /* background-color: #007bff; */
+    /* position: relative; */
+    overflow: hidden; /* Added to hide the overflow during zooming */
+    position: relative; /* Added to enable positioning of the slider */
+    touch-action: none; /* Disable default touch gestures on the container */
+  }
+
+  .canvas {
+    border: 2px solid #ccc;
+    width: 400px;
+    height: 300px;
+    margin: 0 auto;
+    /* position: relative; */
+    transform-origin: 0 0; /* Added to set the origin of the transform */
+    touch-action: none; /* Disable default touch gestures on the canvas */
+  }
+
+  .zoom-slider {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    width: 100px;
+  }
+
+  .zoom-slider input[type="range"] {
+    width: 100%;
+  }
+
+  .add-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+  .element {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: red;
+  }
