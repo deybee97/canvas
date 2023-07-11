@@ -2,12 +2,22 @@
 <html>
 <head>
   <title>Photo Editing Web App</title>
+  <script src="./utils/create-elements.js"></script>
+  
   <link rel="stylesheet" type="text/css" href="styles.css"/>
+  <link rel="stylesheet" type="text/css" href="hierarchy.css"/>
 </head>
 <body>
     <div class="sidebar">
-        <h3>Elements</h3>
-        <button id="add-square-button">Add Square</button>
+        <div class="hierarchy-pane">
+            <h3>hierarchy-pane</h3>
+            <ul id="floor-list"></ul>
+        </div>
+        <div class="asset-pane"> 
+            <h3>Assets</h3>
+            <button id="add-floor-button">Add new Floor</button>
+            <button id="add-element-button">Add Element</button>
+        </div>
     </div>
       
 
@@ -24,6 +34,8 @@
   </div>
   <button  class="add-button" id="add-button">Add New Floor</button>
 
+  <script src="./side-pane-script.js"></script>
  <script src="./script.js"></script>
+ 
 </body>
 </html>

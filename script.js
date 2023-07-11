@@ -1,16 +1,49 @@
 const canvasContainer = document.getElementById('canvas-container');
 const iframe = document.getElementById('canvas');
 const addButton = document.getElementById('add-button');
-const addSquareButton = document.getElementById('add-square-button')
+const addSquareButton = document.getElementById('add-element-button')
 const zoomRange = document.getElementById('zoom-range');
 let initialScale = parseFloat(zoomRange.value);
 let isMouseMoving = false;
-let initialMouseX = 0;
-let initialMouseY = 0;
+let offsetX = 0;
+let offsetY = 0;
+let selectedSquare = null;
+let addedElements = []
 
-// Init iframe size
-// iframe.style.width = `${canvasContainer.clientWidth}px`;
-// iframe.style.height = `${canvasContainer.clientHeight}px`;
+
+//functions for square drag
+
+function handleSquareMouseDown(event) {
+    selectedSquare = event.target;
+    offsetX = event.clientX - selectedSquare.offsetLeft;
+    offsetY = event.clientY - selectedSquare.offsetTop;
+  }
+  
+  // Function to handle mousemove event on the document
+  function handleMouseMove(event) {
+    if (selectedSquare) {
+      const x = event.clientX - offsetX;
+      const y = event.clientY - offsetY;
+      selectedSquare.style.left = `${x}px`;
+      selectedSquare.style.top = `${y}px`;
+    }
+  }
+  
+  // Function to handle mouseup event on the document
+  function handleMouseUp() {
+    // console.log(selectedSquare.style.left, selectedSquare.style.top, selectedSquare.id)
+    // addedElements.forEach(element=>{
+    //     if(element.id === selectedSquare.id){
+    //         console.log(element.element.style.left, selectedSquare.style.left, element.element.style.top, selectedSquare.style.top)
+    //     }
+    // })
+
+    // console.log(addedElements)
+    selectedSquare = null;
+  }
+
+  iframe.contentDocument.addEventListener('mousemove', handleMouseMove);
+  iframe.contentDocument.addEventListener('mouseup', handleMouseUp);
 
 
 
@@ -22,32 +55,14 @@ function handleZoom() {
 
   canvasContainer.style.transformOrigin = `${centerX}px ${centerY}px`;
   canvasContainer.style.transform = `scale(${scale})`;
-  iframe.style.transformOrigin = `${centerX}px ${centerY}px`;
-  iframe.style.transform = `scale(${scale})`;
-}
+
+ }
 
 // Event listener for zoom range input
 zoomRange.addEventListener('input', handleZoom);
 
-// Function to handle mouse movement
 
-// Event listeners for mouse movement
-canvasContainer.addEventListener('mousedown', function(event) {
-  if (event.button === 0) {
-    event.preventDefault();
-    isMouseMoving = true;
-    initialMouseX = event.clientX;
-    initialMouseY = event.clientY;
-  }
-});
 
-document.addEventListener('mouseup', function(event) {
-  if (event.button === 0) {
-    isMouseMoving = false;
-    canvasContainer.style.transform = `scale(${zoomRange.value})`;
-    iframe.style.transform = `scale(${zoomRange.value})`;
-  }
-});
 
 // Function to handle pinch-to-zoom on trackpad
 function handleTrackpadZoom(event) {
@@ -68,24 +83,32 @@ function handleTrackpadZoom(event) {
 }
 
 // Event listener for trackpad pinch-to-zoom
-canvasContainer.addEventListener('wheel', handleTrackpadZoom);
+canvasContainer.addEventListener('wheel', handleTrackpadZoom
+);
 
-// function addSquare() {
-//   const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-//   const squareSize = 50;
-//   const posX = 10;
-//   const posY = 10;
+function addSquare() {
+  const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+   
+  const square = createSquare(iframeDoc)
 
-//   const square = iframeDoc.createElement('div');
-//   square.style.position = 'absolute';
-//   square.style.width = `${squareSize}px`;
-//   square.style.height = `${squareSize}px`;
-//   square.style.left = `${posX}px`;
-//   square.style.top = `${posY}px`;
-//   square.style.backgroundColor = 'red';
+  square.id = addedElements.length
 
-//   iframeDoc.body.appendChild(square);
-// }
+ 
+  
+  addedElements.push({
+    id: square.id,
+    element: square
+  })
+
+  console.log(addedElements)
+
+  iframeDoc.body.appendChild(square);
+  square.addEventListener('mousedown', handleSquareMouseDown);
+}
 
 
-// addSquareButton.addEventListener('click', addSquare)
+ addSquareButton.addEventListener('click', addSquare)
+
+
+
+ 

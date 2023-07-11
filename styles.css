@@ -2,6 +2,16 @@
     width: 200px;
     background-color: #f1f1f1;
     padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .hierarchy-pane{
+    /* s */
+  }
+  .asset-pane{
+    /* background-color: #007bff; */
   }
   
   .sidebar h3 {
@@ -34,6 +44,8 @@
     display: flex;
     flex-direction: row;
     height: 100vh;
+    touch-action: none;
+    overflow: hidden;
   }
 
   .top-pane {
@@ -53,6 +65,7 @@
     width: 200px;
     background-color: #f1f1f1;
     padding: 20px;
+    z-index: 1;
   }
 
   .canvas-container {
@@ -63,7 +76,7 @@
     justify-content: center;
     /* width: 80%;*/
     height: 80%;
-    background-color: #007bff;
+    /* background-color: #007bff; */
     /* position: relative; */
     overflow: hidden; /* Added to hide the overflow during zooming */
     position: relative; /* Added to enable positioning of the slider */
@@ -78,6 +91,7 @@
     /* position: relative; */
     transform-origin: 0 0; /* Added to set the origin of the transform */
     touch-action: none; /* Disable default touch gestures on the canvas */
+    overflow: hidden;
   }
 
   .zoom-slider {
@@ -101,9 +115,9 @@
     border: none;
     cursor: pointer;
   }
-  .element {
+  /* .element {
     position: absolute;
     width: 50px;
     height: 50px;
     background-color: red;
-  }
+  } */
