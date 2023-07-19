@@ -1,14 +1,16 @@
+
+
 const canvasContainer = document.getElementById('canvas-container');
-const iframe = document.getElementById('canvas');
+window.iframe = document.getElementById('canvas');
 const addButton = document.getElementById('add-button');
-const addSquareButton = document.getElementById('add-element-button')
+// const addElementButton = document.getElementById('add-element-button')
 const zoomRange = document.getElementById('zoom-range');
 let initialScale = parseFloat(zoomRange.value);
 let isMouseMoving = false;
 let offsetX = 0;
 let offsetY = 0;
 let selectedSquare = null;
-let addedElements = []
+
 
 
 //functions for square drag
@@ -38,7 +40,8 @@ function handleSquareMouseDown(event) {
     //     }
     // })
 
-    // console.log(addedElements)
+    //  console.log(addedElements)
+    localStorage.setItem("addedElements", JSON.stringify(addedElements))
     selectedSquare = null;
   }
 
@@ -86,29 +89,35 @@ function handleTrackpadZoom(event) {
 canvasContainer.addEventListener('wheel', handleTrackpadZoom
 );
 
-function addSquare() {
+function addElement() {
+
+  if(window.selectedFloor){
+
   const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
    
-  const square = createSquare(iframeDoc)
+  const element = createCircle(iframeDoc)
 
-  square.id = addedElements.length
+  element.id = addedElements.length
+  // element.classList.add("iframe-element")
 
- 
+ console.log(element, selectedFloorId)
   
   addedElements.push({
-    id: square.id,
-    element: square
+    id: element.id,
+    floor_id: selectedFloorId,
+    left: element.style.left,
+    top: element.style.top,
   })
 
   console.log(addedElements)
 
-  iframeDoc.body.appendChild(square);
-  square.addEventListener('mousedown', handleSquareMouseDown);
+  iframeDoc.body.appendChild(element);
+  element.addEventListener('mousedown', handleSquareMouseDown);
+
+  localStorage.setItem("addedElements", JSON.stringify(addedElements))
+}
 }
 
-
- addSquareButton.addEventListener('click', addSquare)
-
+addElementButton.addEventListener('click', addElement)
 
 
- 
