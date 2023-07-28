@@ -98,7 +98,7 @@ function addElement() {
   const element = createCircle(iframeDoc)
 
   element.id = addedElements.length
-  // element.classList.add("iframe-element")
+  
 
  console.log(element, selectedFloorId)
   

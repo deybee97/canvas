@@ -29,7 +29,9 @@ function addFloor(existingFloor) {
 
   // Create a nested list for the elements under the floor
   const elementList = document.createElement("ul");
-
+  elementList.id = floorCount
+  floorItem.classList.add("hierarchy-pane-floor")
+  
   // Append the nested list to the floor item
   floorItem.appendChild(elementList);
 
@@ -111,6 +113,7 @@ function addElementToPane(floor) {
   if (window.selectedFloor) {
     // Create a new element item
     const elementItem = document.createElement("li");
+    elementItem.classList.add("floor-element")
     elementItem.textContent = "New Element";
 
     // Append the element item to the selected floor's nested list

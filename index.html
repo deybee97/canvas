@@ -6,33 +6,58 @@
   
   <link rel="stylesheet" type="text/css" href="styles.css"/>
   <link rel="stylesheet" type="text/css" href="hierarchy.css"/>
+  <link rel="stylesheet" type="text/css" href="styles.headers.css"/>
 </head>
 <body>
-    <div class="sidebar">
-        <div class="hierarchy-pane">
-            <h3>hierarchy-pane</h3>
-            <ul id="floor-list"></ul>
-        </div>
-        <div class="asset-pane"> 
-            <h3>Assets</h3>
-            <button id="add-floor-button">Add new Floor</button>
-            <button id="add-element-button">Add Element</button>
-        </div>
-    </div>
-      
+  <div class="section">
+    <div class="header">
 
-  <div class="main-container">
-    <div class="top-pane">
-      <!-- Add your top pane content here -->
     </div>
-    <div class="canvas-container" id="canvas-container">
-      <iframe class="canvas" id="canvas"></iframe>
-    </div>
-    <div class="zoom-slider">
-      <input type="range" min="1" max="2" step="0.1" value="1.5" id="zoom-range">
-    </div>
+    <div class="main">
+      <div class="sidebar">
+          <div class="hierarchy-pane">
+            <div class="hierarchy-header-container">
+              <h3 class="hierarchy-header">Hierarchy pane</h3>
+            </div>
+            <div class="hierarchy-list-container">
+              <ul id="floor-list"></ul>
+            </div>
+          </div>
+          <div class="asset-pane"> 
+            <div class="asset-header-container">
+              <h3 class="asset-header">Assets</h3>
+            </div>
+              
+            <button id="add-floor-button">Add new Floor</button>
+              <button id="add-element-button">Add Element</button>
+          </div>
+      </div>
+        
+  
+  
+    <div class="main-container">
+      <div class="top-pane">
+        <!-- Add your top pane content here -->
+      </div>
+      <div class="canvas-container" id="canvas-container">
+        <iframe class="canvas" id="canvas"></iframe>
+      </div>
+  
+      <div class="bottom-settings">
+        <div class="zoom-slider">
+          <input type="range" min="1" max="2" step="0.1" value="1.5" id="zoom-range">
+      
+ 
+        </div>
+        <button  class="add-button" id="add-button">Add New Floor</button>
+      </div>
+     
+    
+   </div>
   </div>
-  <button  class="add-button" id="add-button">Add New Floor</button>
+  </div>
+
+  
 
   <script src="./scripts/side-pane-script.js"></script>
  <script src="./scripts/script.js"></script>
