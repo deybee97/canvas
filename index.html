@@ -3,15 +3,26 @@
 <head>
   <title>Photo Editing Web App</title>
   <script src="./utils/create-elements.js"></script>
-  
+  <script src="https://kit.fontawesome.com/b7db079590.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" type="text/css" href="styles.css"/>
   <link rel="stylesheet" type="text/css" href="hierarchy.css"/>
   <link rel="stylesheet" type="text/css" href="styles.headers.css"/>
 </head>
 <body>
   <div class="section">
-    <div class="header">
-
+    <div class="nav-bar">
+      <div class="logo">
+        <h1>ICE Tool</h1>
+      </div>
+      <div class="nav-middle">
+        <button class="resize-button">Resize</button>
+        <button class="undo-redo">UNDO</button>
+        <button class="undo-redo">REDO</button>
+      </div>
+      <div class="nav-end">
+        <button class="preview-button">Preview</button>
+        <button class="sign-in-button">Sign in</button>
+      </div>
     </div>
     <div class="main">
       <div class="sidebar">
@@ -26,10 +37,17 @@
           <div class="asset-pane"> 
             <div class="asset-header-container">
               <h3 class="asset-header">Assets</h3>
+              <button class="asset-button">+</button>
             </div>
-              
+            <div class="frequently-used-asset-container">
             <button id="add-floor-button">Add new Floor</button>
-              <button id="add-element-button">Add Element</button>
+            <button id="add-element-button">wall</button>
+           
+          </div>
+              <div class="asset-footer"> 
+                <h6>frequently used assets</h6>
+              </div>
+            
           </div>
       </div>
         
@@ -38,18 +56,52 @@
     <div class="main-container">
       <div class="top-pane">
         <!-- Add your top pane content here -->
+        <div class="top-pane-tools">
+        <i class="fa-solid fa-trash"></i>
+        <i class="fa-regular fa-copy"></i>
+        <i class="fa-regular fa-pen-to-square"></i>
+        <i class="fa-solid fa-font"></i>
+      </div>
       </div>
       <div class="canvas-container" id="canvas-container">
         <iframe class="canvas" id="canvas"></iframe>
       </div>
   
       <div class="bottom-settings">
-        <div class="zoom-slider">
+        <!-- <div class="zoom-slider">
           <input type="range" min="1" max="2" step="0.1" value="1.5" id="zoom-range">
       
  
+        </div> -->
+      <div class="slider-container">
+        <div class="slider">
+
         </div>
-        <button  class="add-button" id="add-button">Add New Floor</button>
+      </div>
+      <div class="mode">
+       
+          <button class="light-mode-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+              <path d="M12.7358 1.60046C13.15 1.60046 13.4858 1.93625 13.4858 2.35046V3.35046C13.4858 3.76467 13.15 4.10046 12.7358 4.10046C12.3216 4.10046 11.9858 3.76467 11.9858 3.35046V2.35046C11.9858 1.93625 12.3216 1.60046 12.7358 1.60046Z" fill="black"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M6.98584 12.3505C6.98584 9.17482 9.5602 6.60046 12.7358 6.60046C15.9114 6.60046 18.4858 9.17482 18.4858 12.3505C18.4858 15.5261 15.9114 18.1005 12.7358 18.1005C9.5602 18.1005 6.98584 15.5261 6.98584 12.3505ZM12.7358 8.10046C10.3886 8.10046 8.48584 10.0033 8.48584 12.3505C8.48584 14.6977 10.3886 16.6005 12.7358 16.6005C15.083 16.6005 16.9858 14.6977 16.9858 12.3505C16.9858 10.0033 15.083 8.10046 12.7358 8.10046Z" fill="black"/>
+              <path d="M6.19512 4.74909C5.90222 4.4562 5.42735 4.4562 5.13446 4.74909C4.84156 5.04199 4.84156 5.51686 5.13446 5.80976L5.84156 6.51686C6.13446 6.80976 6.60933 6.80976 6.90222 6.51686C7.19512 6.22397 7.19512 5.74909 6.90222 5.4562L6.19512 4.74909Z" fill="black"/>
+              <path d="M23.4858 12.3505C23.4858 12.7647 23.15 13.1005 22.7358 13.1005H21.7358C21.3216 13.1005 20.9858 12.7647 20.9858 12.3505C20.9858 11.9363 21.3216 11.6005 21.7358 11.6005H22.7358C23.15 11.6005 23.4858 11.9363 23.4858 12.3505Z" fill="black"/>
+              <path d="M20.3372 5.80975C20.6301 5.51685 20.6301 5.04198 20.3372 4.74909C20.0443 4.45619 19.5694 4.45619 19.2765 4.74909L18.5694 5.45619C18.2765 5.74909 18.2765 6.22396 18.5694 6.51685C18.8623 6.80975 19.3372 6.80975 19.6301 6.51685L20.3372 5.80975Z" fill="black"/>
+              <path d="M12.7358 20.6005C13.15 20.6005 13.4858 20.9363 13.4858 21.3505V22.3505C13.4858 22.7647 13.15 23.1005 12.7358 23.1005C12.3216 23.1005 11.9858 22.7647 11.9858 22.3505V21.3505C11.9858 20.9363 12.3216 20.6005 12.7358 20.6005Z" fill="black"/>
+              <path d="M19.6301 18.1841C19.3372 17.8912 18.8624 17.8912 18.5695 18.1841C18.2766 18.477 18.2766 18.9519 18.5695 19.2448L19.2766 19.9519C19.5695 20.2448 20.0443 20.2448 20.3372 19.9519C20.6301 19.659 20.6301 19.1841 20.3372 18.8912L19.6301 18.1841Z" fill="black"/>
+              <path d="M4.48584 12.3505C4.48584 12.7647 4.15005 13.1005 3.73584 13.1005H2.73584C2.32163 13.1005 1.98584 12.7647 1.98584 12.3505C1.98584 11.9363 2.32163 11.6005 2.73584 11.6005H3.73584C4.15005 11.6005 4.48584 11.9363 4.48584 12.3505Z" fill="black"/>
+              <path d="M6.90216 19.2448C7.19505 18.9519 7.19505 18.477 6.90216 18.1841C6.60926 17.8912 6.13439 17.8912 5.8415 18.1841L5.13439 18.8912C4.8415 19.1841 4.8415 19.659 5.13439 19.9519C5.42728 20.2448 5.90216 20.2448 6.19505 19.9519L6.90216 19.2448Z" fill="black"/>
+            </svg>
+          </button>
+          <button class="dark-mode-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M12.276 5.52146C8.51167 5.78498 5.53973 8.92219 5.53973 12.7535C5.53973 16.7576 8.78567 20.0035 12.7897 20.0035C15.9976 20.0035 18.7194 17.9197 19.6745 15.0322C18.9394 15.3359 18.1338 15.5035 17.2897 15.5035C13.8379 15.5035 11.0397 12.7053 11.0397 9.25354C11.0397 7.8544 11.4998 6.56263 12.276 5.52146ZM4.03973 12.7535C4.03973 7.92105 7.95724 4.00354 12.7897 4.00354C13.2393 4.00354 13.6815 4.03752 14.1136 4.10316C14.4126 4.14857 14.6551 4.36907 14.7285 4.6624C14.802 4.95573 14.6922 5.26449 14.4499 5.44548C13.2889 6.31289 12.5397 7.69562 12.5397 9.25354C12.5397 11.8769 14.6663 14.0035 17.2897 14.0035C18.4239 14.0035 19.4635 13.6069 20.2802 12.9441C20.5149 12.7537 20.841 12.7227 21.1073 12.8656C21.3737 13.0085 21.5283 13.2972 21.4994 13.5981C21.074 18.0347 17.3374 21.5035 12.7897 21.5035C7.95724 21.5035 4.03973 17.586 4.03973 12.7535Z" fill="black"/>
+            </svg>
+          </button>
+       
+      </div>
+       
+        
       </div>
      
     
