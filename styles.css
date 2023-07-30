@@ -249,6 +249,11 @@ body {
     width: 150px;
   }
 
+  .top-pane-tools svg:hover{
+      font-size:30px;
+      background-color: #007bff;
+  }
+
 
   /*buttons*/
 
