@@ -1,7 +1,8 @@
 // Get necessary elements
 const addFloorButton = document.getElementById("add-floor-button");
 const floorList = document.getElementById("floor-list");
-const addElementButton = document.getElementById("add-element-button");
+const addElementButton = document.getElementsByClassName("add-element-button");
+
 const floors = []
 let addedElements = [...JSON.parse(localStorage.getItem('addedElements'))]
 let selectedFloorId = 0
@@ -64,7 +65,7 @@ function selectFloor(event) {
   }
 
   if(selectedFloor.classList.contains("selected")){
-    console.log("selected")
+
     close = true
   }
 
@@ -95,15 +96,14 @@ elementsArray.forEach((element) => {
   //store the id of the selected floor to be used by the elements
   selectedFloorId = event.target.id
   
-  console.log("selectedFloorId", selectedFloorId)
+
 
   // get all elements that belong to the floor
   const floorElement = addedElements.filter(elem=> elem.floor_id === selectedFloorId)
 
-  console.log(floorElement)
- 
+
   if(floorElement.length > 0){
-      console.log(floorElement)
+
    
       floorElement.forEach(elem=>{
        
@@ -111,7 +111,10 @@ elementsArray.forEach((element) => {
           left: elem.left,
           top: elem.top,
         }
-         const element =  createCircle(iframeDoc, position)
+        // elem.type: e.g door-element, wall-element etc
+         const element =  createCircle(iframeDoc,elem.type, position)
+         element.setAttribute("id",elem.id)
+        
          iframeDoc.body.appendChild(element);
          element.addEventListener('mousedown', handleSquareMouseDown);
       })
@@ -123,7 +126,7 @@ elementsArray.forEach((element) => {
   // const elementContainer = document.querySelector(`#floor${selectedFloorId}.elements-container`)
   
  
-  // console.log(elementContainer)
+
   const floorElementContainer = document.querySelector(`#floor${selectedFloorId}.elements-container`)
   
   if(close){
@@ -139,14 +142,17 @@ elementsArray.forEach((element) => {
 }
 
 // Function to handle adding a new element under the selected floor
-function addElementToPane(floor) {
+function addElementToPane(floor, elementId, elementTypeId) {
   // Get the selected floor
- 
+  let addedElementId = elementId ? elementId : addedElements.length
+
   window.selectedFloor = document.getElementById(floor?.id) || document.querySelector("#floor-list li.selected");
   if (window.selectedFloor) {
     // Create a new element item
     const elementItem = document.createElement("li");
     elementItem.classList.add("floor-element")
+    elementItem.classList.add(elementTypeId)
+    elementItem.setAttribute("id", addedElementId)
     elementItem.textContent = "New Element";
 
     // Append the element item to the selected floor's nested list
@@ -160,14 +166,29 @@ function addElementToPane(floor) {
 }
 
 
+
 //TODO: I might have to pass the actual elemts later 
+// Elements that have been saved 
 JSON.parse(localStorage.getItem('floors')).forEach(floor=>{
-  console.log(floor.id)
+  
+  
   let elements = addedElements.filter(element=> (element.floor_id )== floor.id)
-  elements.forEach(element=> addElementToPane(floor))
+  console.log(elements[0])
+  elements.forEach(element=> addElementToPane(floor, element.id,element.type))
   
 })
 
 // Attach event listeners
 addFloorButton.addEventListener("click", addFloor);
-addElementButton.addEventListener("click", addElementToPane);
+
+
+// add event listeners to all the asset buttons.
+Array.from(addElementButton).forEach(element=>{
+
+  
+
+  element.addEventListener("click", ()=>{addElementToPane(null,null,element.id)});
+})
+
+
+

@@ -1,22 +1,41 @@
 
 
 const canvasContainer = document.getElementById('canvas-container');
+
 window.iframe = document.getElementById('canvas');
 const addButton = document.getElementById('add-button');
 // const addElementButton = document.getElementById('add-element-button')
 const zoomRange = document.getElementById('zoom-range');
+
+const parentDiv = document.querySelector('.top-pane-tools');
+
+// Select all the SVG elements within the parent div
+const svgElements = parentDiv.querySelectorAll('svg');
+
+// Loop through the selected SVG elements
+svgElements.forEach((svgElement) => {
+  // Do something with each SVG element
+  svgElement.addEventListener('click',()=>editToolFunctions(svgElement))
+});
+
 let initialScale = parseFloat(zoomRange.value);
 let isMouseMoving = false;
 let offsetX = 0;
 let offsetY = 0;
 let selectedSquare = null;
+window.prevSelected = selectedSquare
 
 
 
 //functions for square drag
 
+
+
 function handleSquareMouseDown(event) {
+    prevSelected ? prevSelected.style.border = "none": null
     selectedSquare = event.target;
+    selectedSquare.style.border = "2px solid grey"
+    console.log(selectedSquare)
     offsetX = event.clientX - selectedSquare.offsetLeft;
     offsetY = event.clientY - selectedSquare.offsetTop;
   }
@@ -33,16 +52,20 @@ function handleSquareMouseDown(event) {
   
   // Function to handle mouseup event on the document
   function handleMouseUp() {
-    // console.log(selectedSquare.style.left, selectedSquare.style.top, selectedSquare.id)
-    // addedElements.forEach(element=>{
-    //     if(element.id === selectedSquare.id){
-    //         console.log(element.element.style.left, selectedSquare.style.left, element.element.style.top, selectedSquare.style.top)
-    //     }
-    // })
 
-    //  console.log(addedElements)
+    addedElements.forEach(element=>{
+        if(element.id === selectedSquare.id){
+      
+            element.left = selectedSquare.style.left
+            element.top = selectedSquare.style.top
+        }
+    })
+
+
     localStorage.setItem("addedElements", JSON.stringify(addedElements))
+    prevSelected = selectedSquare
     selectedSquare = null;
+    
   }
 
   iframe.contentDocument.addEventListener('mousemove', handleMouseMove);
@@ -89,35 +112,40 @@ function handleTrackpadZoom(event) {
 canvasContainer.addEventListener('wheel', handleTrackpadZoom
 );
 
-function addElement() {
+function addElement(event) {
+
+ console.log(event.target.id)
 
   if(window.selectedFloor){
 
   const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
    
-  const element = createCircle(iframeDoc)
+  const element = createCircle(iframeDoc, event.target.id)
 
-  element.id = addedElements.length
+  // element.id = addedElements.length
+  element.setAttribute("id",addedElements.length)
   
 
- console.log(element, selectedFloorId)
+
   
   addedElements.push({
     id: element.id,
     floor_id: selectedFloorId,
     left: element.style.left,
     top: element.style.top,
+    type: event.target.id
   })
 
-  console.log(addedElements)
+
 
   iframeDoc.body.appendChild(element);
   element.addEventListener('mousedown', handleSquareMouseDown);
+
 
   localStorage.setItem("addedElements", JSON.stringify(addedElements))
 }
 }
 
-addElementButton.addEventListener('click', addElement)
+Array.from(addElementButton).forEach((element)=> element.addEventListener('click', (event)=>{addElement(event)}))
 
 

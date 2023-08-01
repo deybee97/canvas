@@ -7,10 +7,12 @@
     font-style: normal;
     font-weight: 600;
     line-height: normal;
-    
-    /* position: fixed; */
-    /* z-index: 1; */
+ 
+}
 
+.hierarchy-header-container{
+
+    z-index: 1;
 }
 
 #floor-list {
