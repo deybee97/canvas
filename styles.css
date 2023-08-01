@@ -17,6 +17,7 @@ body {
 
 
 
+
 .sidebar {
     width: 250px;
     background: #D9D9D9;
@@ -24,7 +25,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    z-index: 1;
+    /* z-index: 1; */
   }
 
   .hierarchy-pane{
@@ -80,6 +81,7 @@ body {
   .top-pane {
     height: 10%;
     background-color: #C9C6C6;
+    /* z-index: 1; */
     /* padding: 10px; */
     width: 100%; /* Adjust the width based on your canvas width */
   }
@@ -107,7 +109,8 @@ body {
     overflow: hidden; /* Added to hide the overflow during zooming */
     /* position: relative; Added to enable positioning of the slider */
     touch-action: none; /* Disable default touch gestures on the container */
-   
+    position: relative;
+    z-index: -1;
 
     
   }
@@ -156,6 +159,7 @@ body {
     background-color: #C9C6C6;
     height: 10%;
     display: flex;
+    /* z-index: 2; */
   }
 
   .slider-container{
@@ -226,6 +230,14 @@ body {
     color: #FFF;
     font-family: Inter;
     padding-left: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+  }
+  .logo img{
+    width: inherit;
+    border-radius: inherit;
+   
   }
 
   .nav-middle{
@@ -249,9 +261,16 @@ body {
     width: 150px;
   }
 
+  .top-pane-tools svg{
+    border-radius: 100%;
+    padding: 5px;
+    width: 30px;
+    height: 30px
+  }
+
   .top-pane-tools svg:hover{
-      font-size:30px;
-      background-color: #007bff;
+     background-color: rgb(193, 191, 191);
+
   }
 
 
@@ -270,7 +289,7 @@ body {
     cursor: pointer;
   }
 
-  .resize-button{
+  .resize-button, .preview-button{
 
     border-top-left-radius: 5px ;
     border-top-right-radius: 5px;
@@ -279,22 +298,25 @@ body {
     border: none;
     padding: 0px 20px;
     margin-right: 60px;
+   
   }
 
   .undo-redo {
     background: none;
     border: none;
     margin: 0 10px;
+    border-radius: 50%;
+  }
+  .undo-redo:hover{
+    background-color: rgb(160, 159, 159);
   }
 
   .preview-button{
-    border-top-left-radius: 5px ;
-    border-top-right-radius: 5px;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-    border: none;
-    padding: 0px 20px;
     margin-right: 30px;
+  }
+
+  .resize-button:hover, .preview-button:hover{
+    color: rgba(131, 130, 130, 0.81)
   }
 
   .sign-in-button{
@@ -307,6 +329,10 @@ body {
     padding: 0px 30px;
     margin-right: 60px;
     color: #FFF;
+  }
+  .sign-in-button:hover{
+    color: #007bff;
+    border-color: #007bff;
   }
 
   .light-mode-button, .dark-mode-button{

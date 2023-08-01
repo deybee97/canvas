@@ -1,7 +1,7 @@
 
 
 .hierarchy-header {
-    color: #464646;
+    color: #007bff;
     font-family: Inter;
     font-size: 24px;
     font-style: normal;
@@ -22,8 +22,8 @@
     line-height: normal;    
 }
 
-.asser-header {
-    color: #000;
+.asset-header {
+    color: #007bff;;
     font-family: Inter;
     font-size: 15px;
     font-style: normal;

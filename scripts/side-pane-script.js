@@ -5,7 +5,7 @@ const addElementButton = document.getElementById("add-element-button");
 const floors = []
 let addedElements = [...JSON.parse(localStorage.getItem('addedElements'))]
 let selectedFloorId = 0
-
+let visible = false
 
 
 
@@ -17,6 +17,7 @@ function addFloor(existingFloor) {
 
   // Create a new list item for the floor
   const floorItem = document.createElement("li");
+  floorItem.classList.add("floor-item")
   floorItem.textContent = "Floor " + floorCount;
   floorItem.id = floorCount
 
@@ -29,7 +30,7 @@ function addFloor(existingFloor) {
 
   // Create a nested list for the elements under the floor
   const elementList = document.createElement("ul");
-  elementList.id = floorCount
+  elementList.id = "floor"+floorCount
   floorItem.classList.add("hierarchy-pane-floor")
   
   // Append the nested list to the floor item
@@ -53,6 +54,21 @@ JSON.parse(localStorage.getItem('floors')).forEach(floor=>{
 // Function to handle selecting a floor
 function selectFloor(event) {
 
+  const selectedFloor = event.target;
+
+  let close = false
+
+ 
+  if(selectedFloor.classList.value === "floor-element"){
+    return
+  }
+
+  if(selectedFloor.classList.contains("selected")){
+    console.log("selected")
+    close = true
+  }
+
+  
   // Remove the selected class from all floor items
   const floorItems = document.querySelectorAll("#floor-list li");
   floorItems.forEach((item) => {
@@ -74,11 +90,12 @@ elementsArray.forEach((element) => {
 });
 
   // Add the selected class to the clicked floor item
-  const selectedFloor = event.target;
+
   
   //store the id of the selected floor to be used by the elements
   selectedFloorId = event.target.id
-
+  
+  console.log("selectedFloorId", selectedFloorId)
 
   // get all elements that belong to the floor
   const floorElement = addedElements.filter(elem=> elem.floor_id === selectedFloorId)
@@ -102,7 +119,23 @@ elementsArray.forEach((element) => {
       
   }
 
+
+  // const elementContainer = document.querySelector(`#floor${selectedFloorId}.elements-container`)
+  
+ 
+  // console.log(elementContainer)
+  const floorElementContainer = document.querySelector(`#floor${selectedFloorId}.elements-container`)
+  
+  if(close){
+    selectedFloor.classList.remove("selected")
+
+    return
+  }
+
+  
+
   selectedFloor.classList.add("selected");
+
 }
 
 // Function to handle adding a new element under the selected floor
@@ -118,6 +151,8 @@ function addElementToPane(floor) {
 
     // Append the element item to the selected floor's nested list
     const elementList = window.selectedFloor.querySelector("ul");
+    elementList.classList.add("elements-container")
+    
     elementList.appendChild(elementItem);
   } else {
     alert("Please select a floor first.");
