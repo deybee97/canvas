@@ -4,7 +4,7 @@ const floorList = document.getElementById("floor-list");
 const addElementButton = document.getElementsByClassName("add-element-button");
 
 const floors = []
-let addedElements = [...JSON.parse(localStorage.getItem('addedElements'))]
+window.addedElements = [...JSON.parse(localStorage.getItem('addedElements'))]
 let selectedFloorId = 0
 let visible = false
 

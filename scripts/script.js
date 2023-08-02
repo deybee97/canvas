@@ -31,7 +31,7 @@ window.prevSelected = selectedSquare
 
 
 
-function handleSquareMouseDown(event) {
+window.handleSquareMouseDown = (event)=> {
     prevSelected ? prevSelected.style.border = "none": null
     selectedSquare = event.target;
     selectedSquare.style.border = "2px solid grey"

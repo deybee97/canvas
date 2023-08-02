@@ -11,12 +11,38 @@ function editToolFunctions(editType){
 }
 
 function handleDelete () {
+    const iframeDoc = window.iframe.contentDocument || window.iframe.contentWindow.document
+     console.log(window.addedElements.length)
+    if(window.prevSelected && iframeDoc){
+        window.addedElements = window.addedElements.filter(element=>element.id !== window.prevSelected.id)
+        window.prevSelected.remove()
     
-    console.log(window.prevSelected)
-   alert("delete")
+    console.log(window.addedElements.length)
+    localStorage.setItem("addedElements", JSON.stringify(window.addedElements))
+    }
 }
 
 function handleCopy(){
     alert("copy")
+    const iframeDoc = window.iframe.contentDocument || window.iframe.contentWindow.document
+    if(window.prevSelected && iframeDoc){
+    const copiedElement = window.addedElements.find(element=>element.id === window.prevSelected.id)
+    console.log(copiedElement)
+
+    const  newElement = {
+        ...copiedElement,
+        id: window.addedElements.length.toString()
+    }
+    console.log(newElement)
+
+    const element = createCircle(iframeDoc, newElement.type)
+    element.setAttribute("id", newElement.id)
+
+    iframeDoc.body.appendChild(element)
+    element.addEventListener('mousedown', window.handleSquareMouseDown);
+
+    window.addedElements.push(newElement)
+    localStorage.setItem("addedElements", JSON.stringify(window.addedElements))
+}    
 
 }
