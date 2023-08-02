@@ -2,6 +2,7 @@
 
 const canvasContainer = document.getElementById('canvas-container');
 
+
 window.iframe = document.getElementById('canvas');
 const addButton = document.getElementById('add-button');
 // const addElementButton = document.getElementById('add-element-button')
