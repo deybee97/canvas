@@ -3,7 +3,7 @@
 .hierarchy-header {
     color: #007bff;
     font-family: Inter;
-    font-size: 24px;
+    font-size: 18px;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
@@ -24,11 +24,15 @@
     line-height: normal;    
 }
 
-.asset-header {
+h6 {
     color: #007bff;;
     font-family: Inter;
-    font-size: 15px;
+    font-size: 18px;
     font-style: normal;
     font-weight: 100;
     line-height: normal;
+}
+#asset-options h6{
+    color: #525252;
+    font-size: 14px;
 }
