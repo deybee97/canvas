@@ -127,21 +127,6 @@ body {
 
   }
 
-  #asset-options{
-    height: 90%;
-    width: 400px;
-    position: absolute;
-    top:0;
-    right: 40px;
-    background-color: #D9D9D9;
-    display: none;
-    padding: 10px 0;
-  }
-
-  
-  #asset-options.visibility{
-    display: block;
-  }
   
 
   .zoom-slider {
@@ -294,10 +279,44 @@ body {
   }
 
 
+  /*asset-option*/
   #cancel-button-div{
 
 
   }
+
+
+  #asset-options{
+    height: 90%;
+    width: 450px;
+    position: absolute;
+    top:0;
+    right: 40px;
+    background-color: #D9D9D9;
+    display: block;
+    padding: 10px 0;
+  }
+
+  .scale-container{
+    display: flex;
+    justify-content: space-between;
+
+
+  }
+
+  
+  #asset-options.visibility{
+    display: block;
+  }
+
+  .scale-input{
+    border: none;
+    background-color: rgb(217, 217, 217);
+    width: 40px;
+    height: 20px;
+  }
+
+  
 
   /*buttons*/
 
