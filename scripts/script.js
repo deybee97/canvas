@@ -134,7 +134,11 @@ function addElement(event) {
     floor_id: selectedFloorId,
     left: element.style.left,
     top: element.style.top,
-    type: event.target.id
+    type: event.target.id,
+    desc: "New Element",
+    width: 50,
+    shape: "circle",
+    color: "rgb(191, 188, 211)"
   })
 
 

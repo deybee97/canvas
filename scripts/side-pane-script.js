@@ -4,22 +4,31 @@ const floorList = document.getElementById("floor-list");
 const addElementButton = document.getElementsByClassName("add-element-button");
 const assetOptions = document.getElementById('asset-options')
 const assetOptionsCancelButton = assetOptions.querySelector("#cancel-button-div > svg ")
+const assetSize = document.getElementById("asset-size")
+const assetDesc = document.getElementById("asset-desc")
+const assetColor = document.getElementById("asset-color")
+const shapePickerButton = document.getElementById("shape-button")
+const shapeContainer = document.getElementsByClassName("shape-container")
+const assetButton = document.getElementById("image-upload-button")
+const imageInput = document.getElementById("image-input")
+const imagePreview = document.getElementById("image-preview")
+const saveOptionButton = document.getElementById("save-button")
+const scaleCheckbox = document.getElementById("scale-checkbox")
+const colorCheckbox = document.getElementById("color-checkbox")
+
+
+//global variable
 const floors = []
-window.addedElements = [...JSON.parse(localStorage.getItem('addedElements'))]
+window.addedElements = localStorage.getItem('addedElements') ?  [...JSON.parse(localStorage.getItem('addedElements'))]: []
 let selectedFloorId = 0
 let selectedElementId = null
 let selectedElement
 
-let visible = false
+//error?
+// let visible = false
 
 
-assetOptionsCancelButton.addEventListener("click", ()=>{
-  assetOptions.classList.remove("visibility")
-  selectedFloorId = 0
-  selectedElementId = null
-  selectedElement.classList.remove("selected")
 
-})
 
 
 // Function to handle adding a new floor
@@ -33,6 +42,8 @@ function addFloor(existingFloor) {
   floorItem.classList.add("floor-item")
   floorItem.textContent = "Floor " + floorCount;
   floorItem.id = "floor-" + floorCount
+
+  
 
   floors.push({
     id: floorItem.id,
@@ -194,14 +205,28 @@ function addElementToPane(floor, elementId, elementTypeId) {
 }
 
 
+//onclick element in the hierarchy, the right side pane appears with all the info of the elements
+
 const handleHierarchyElement = (event) => {
   if(selectedElement){
     selectedElement.classList.remove("selected")
   }
+  
   selectedElementId = event.target.id
-  event.target.classList.add("selected")
-  selectedElement = event.target
-  assetOptions.classList.add("visibility")
+ 
+ // get the data of selected element from added elements
+  const selectedElementInfo = addedElements.find(element=> element.id === selectedElementId)
+
+  const {desc, width, shape, color} = selectedElementInfo
+   
+  // dynamically add the existing value for the selected element
+     assetDesc.value = desc
+     assetColor.value = "#FF0000"
+     assetSize.value = width
+  
+    event.target.classList.add("selected")
+    selectedElement = event.target
+    assetOptions.classList.add("visibility")
 }
 
 
