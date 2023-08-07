@@ -18,9 +18,9 @@ const colorCheckbox = document.getElementById("color-checkbox")
 
 
 //global variable
-const floors = []
+let profile = null
 window.addedElements = localStorage.getItem('addedElements') ?  [...JSON.parse(localStorage.getItem('addedElements'))]: []
-let selectedFloorId = 0
+let selectedFloorId = 1
 let selectedElementId = null
 let selectedElement
 
@@ -34,27 +34,29 @@ let selectedElement
 // Function to handle adding a new floor
 function addFloor(existingFloor) {
 
-  let floorCount = existingFloor?.id - 1 || floors.length;
-  floorCount++;
+  console.log(existingFloor)
+
+
+  if(!profile){
+  let profileId = existingFloor?.id || generateRandomId(12);
+
 
   // Create a new list item for the floor
+
   const floorItem = document.createElement("li");
   floorItem.classList.add("floor-item")
-  floorItem.textContent = "Floor " + floorCount;
-  floorItem.id = "floor-" + floorCount
+  floorItem.innerText = existingFloor.name || "new Profile"
+  floorItem.id = profileId
+  profile = {
+    id: profileId,
+    name:  existingFloor.id ? existingFloor.name : "new profile",
+  }
 
-  
-
-  floors.push({
-    id: floorItem.id,
-    name: floorItem.textContent,
-  })
-
-  localStorage.setItem('floors',JSON.stringify(floors))
+  localStorage.setItem('profile',JSON.stringify(profile))
 
   // Create a nested list for the elements under the floor
   const elementList = document.createElement("ul");
-  elementList.id = "floor-"+floorCount+"-elements"
+  elementList.id = "profile-child"
   floorItem.classList.add("hierarchy-pane-floor")
   
   // Append the nested list to the floor item
@@ -65,13 +67,17 @@ function addFloor(existingFloor) {
 
   // Add click event listener to the floor item
   floorItem.addEventListener("click", selectFloor);
+  floorItem.addEventListener("dblclick", handleProfileDoubleClick)
+ }else{
+  alert("floor already created")
+ }
 }
 
 
 
-JSON.parse(localStorage.getItem('floors')).forEach(floor=>{
-     addFloor(floor)
-})
+ addFloor(JSON.parse(localStorage.getItem('profile')))
+    
+
 
 
 
@@ -81,6 +87,8 @@ function selectFloor(event) {
  
   
   const selectedFloor = event.target;
+
+  
 
   let close = false
 
@@ -98,6 +106,7 @@ function selectFloor(event) {
   
   // Remove the selected class from all floor items
   const floorItems = document.querySelectorAll("#floor-list li");
+  console.log(floorItems)
   floorItems.forEach((item) => {
     item.classList.remove("selected");
   });
@@ -122,7 +131,7 @@ elementsArray.forEach((element) => {
   //store the id of the selected floor to be used by the elements
   selectedFloorId = event.target.id
   
-
+  console.log(selectedFloorId)
 
   // get all elements that belong to the floor
   const floorElement = addedElements.filter(elem=> elem.floor_id === selectedFloorId)
@@ -178,10 +187,10 @@ function addElementToPane(floor, elementId, elementTypeId) {
  
 
 
-  window.selectedFloor = document.getElementById(floor?.id) || document.querySelector("#floor-list li.selected");
+  const selectedFloor = document.getElementById(floor?.id) || document.querySelector("#floor-list li");
 
 
-  if (window.selectedFloor) {
+  // if (window.selectedFloor) {
     // Create a new element item
     const elementItem = document.createElement("li");
     elementItem.classList.add("floor-element")
@@ -190,7 +199,8 @@ function addElementToPane(floor, elementId, elementTypeId) {
     elementItem.textContent = "New Element";
 
     // Append the element item to the selected floor's nested list
-    const elementList = window.selectedFloor.querySelector("ul");
+    console.log(selectedFloor)
+    const elementList = selectedFloor.querySelector("ul");
     
     elementList.classList.add("elements-container")
     
@@ -199,15 +209,21 @@ function addElementToPane(floor, elementId, elementTypeId) {
 
     // event listener for elements in the hierarchy pane
     elementItem.addEventListener("click",(event)=>{handleHierarchyElement(event)})
-  } else {
-    alert("Please select a floor first.");
-  }
+  // } else {
+  //   alert("Please select a floor first.");
+  // }
 }
 
 
 //onclick element in the hierarchy, the right side pane appears with all the info of the elements
 
-const handleHierarchyElement = (event) => {
+function handleProfileDoubleClick(event) {
+    console.log(event.target)
+    assetOptions.classList.add("profile")
+    handleHierarchyElement(event,"profile")
+}
+
+const handleHierarchyElement = (event,elementType) => {
   if(selectedElement){
     selectedElement.classList.remove("selected")
   }
@@ -215,15 +231,24 @@ const handleHierarchyElement = (event) => {
   selectedElementId = event.target.id
  
  // get the data of selected element from added elements
-  const selectedElementInfo = addedElements.find(element=> element.id === selectedElementId)
+  
+  const selectedElementInfo = elementType ? profile :addedElements.find(element=> element.id === selectedElementId)
 
-  const {desc, width, shape, color} = selectedElementInfo
+  console.log(selectedElementInfo)
+ 
+
    
   // dynamically add the existing value for the selected element
-     assetDesc.value = desc
-     assetColor.value = "#FF0000"
-     assetSize.value = width
-  
+
+     if(elementType){
+      assetDesc.value = selectedElementInfo.name
+     }else{
+      const {desc, color} = selectedElementInfo
+      assetDesc.value = desc
+      assetColor.value = "#BEBCD3"
+
+     }
+    
     event.target.classList.add("selected")
     selectedElement = event.target
     assetOptions.classList.add("visibility")
@@ -234,14 +259,14 @@ const handleHierarchyElement = (event) => {
 
 //TODO: I might have to pass the actual elemts later 
 // Elements that have been saved 
-JSON.parse(localStorage.getItem('floors')).forEach(floor=>{
+// JSON.parse(localStorage.getItem('floors')).forEach(floor=>{
   
   
-  let elements = addedElements.filter(element=> (element.floor_id )== floor.id)
-  console.log(floor.id)
-  elements.forEach(element=> addElementToPane(floor, element.id,element.type))
+//   let elements = addedElements.filter(element=> (element.floor_id )== floor.id)
+
+  addedElements.forEach(element=> addElementToPane(null, element.id,element.type))
   
-})
+
 
 // Attach event listeners
 addFloorButton.addEventListener("click", addFloor);

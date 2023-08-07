@@ -79,9 +79,10 @@
     position: relative;
     top: 4px
   }
+
   #floor-list .floor-item.selected > ul {
     display: block;
-  }
+  } 
   .elements-container{
     display: none;
   }

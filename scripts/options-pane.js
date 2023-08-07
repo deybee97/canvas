@@ -17,11 +17,7 @@ const settings = {
 }
 
 
-assetSize.addEventListener("change",(event)=>{
-    saveOptionButton.removeAttribute("disabled")
-    scaleCheckbox.removeAttribute("disabled")
-    settings.singularChange.width = event.target.value
-})
+
 
 assetColor.addEventListener("change",(event)=>{
     saveOptionButton.removeAttribute("disabled")
@@ -34,30 +30,9 @@ assetDesc.addEventListener("change",(event)=>{
     settings.singularChange.desc = event.target.value
 })
 
-scaleCheckbox.addEventListener("change",(event)=>{
 
 
-    if(event.target.checked){
-    settings.applyToAll.width = settings.singularChange.width
-    }else{
-        delete settings.applyToAll.width
-    }
-    console.log(settings.applyToAll)
- 
 
-})
-
-colorCheckbox.addEventListener("change",(event)=>{
-     
-    if(event.target.checked){
-    settings.applyToAll.color = settings.singularChange.color
-    }
-    else{
-        delete settings.applyToAll.color
-    }
-    console.log(settings.applyToAll)
-  
-})
 
 
 assetOptionsCancelButton.addEventListener("click", ()=>{
@@ -87,14 +62,7 @@ assetOptionsCancelButton.addEventListener("click", ()=>{
   })
 
 
-  
-  shapePickerButton.addEventListener("click",()=>{
-    if(shapeContainer[0].classList.contains("visibility")){
-      shapeContainer[0].classList.remove("visibility")
-      return
-    }
-     shapeContainer[0].classList.add("visibility")
-  })
+
 
   assetButton.addEventListener("click", ()=>{
     console.log("click")
@@ -102,7 +70,7 @@ assetOptionsCancelButton.addEventListener("click", ()=>{
   })
 
   imageInput.addEventListener('change', (event)=>{
-    const selectedFile = event.target.files[0];
+    const selectedFile = event.target.files;
     if (selectedFile) {
         displayImagePreview(selectedFile);
         saveOptionButton.removeAttribute("disabled")

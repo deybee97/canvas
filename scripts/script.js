@@ -4,7 +4,7 @@ const canvasContainer = document.getElementById('canvas-container');
 
 
 window.iframe = document.getElementById('canvas');
-const addButton = document.getElementById('add-button');
+// const addButton = document.getElementById('add-button');
 // const addElementButton = document.getElementById('add-element-button')
 const zoomRange = document.getElementById('zoom-range');
 
@@ -117,7 +117,7 @@ function addElement(event) {
 
  console.log(event.target.id)
 
-  if(window.selectedFloor){
+if(profile){
 
   const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
    
@@ -136,9 +136,7 @@ function addElement(event) {
     top: element.style.top,
     type: event.target.id,
     desc: "New Element",
-    width: 50,
-    shape: "circle",
-    color: "rgb(191, 188, 211)"
+    color: "#BEBCD3"
   })
 
 
@@ -150,6 +148,7 @@ function addElement(event) {
   localStorage.setItem("addedElements", JSON.stringify(addedElements))
 }
 }
+
 
 Array.from(addElementButton).forEach((element)=> element.addEventListener('click', (event)=>{addElement(event)}))
 
