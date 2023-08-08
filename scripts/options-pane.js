@@ -32,34 +32,33 @@ assetDesc.addEventListener("change",(event)=>{
 
 
 
+const resetOptionPane =  ()=>{
+  assetOptions.classList.remove("visibility")
+  selectedFloorId = 0
+  selectedElementId = null
+  selectedElement.classList.remove("selected")
 
+  saveOptionButton.setAttribute("disabled",true)
+  scaleCheckbox.checked = false
+  colorCheckbox.checked = false
+  scaleCheckbox.setAttribute("disabled",true)
+  colorCheckbox.setAttribute("disabled",true)
 
+  settings = {
 
-assetOptionsCancelButton.addEventListener("click", ()=>{
-    assetOptions.classList.remove("visibility")
-    selectedFloorId = 0
-    selectedElementId = null
-    selectedElement.classList.remove("selected")
-
-    saveOptionButton.setAttribute("disabled",true)
-    scaleCheckbox.checked = false
-    colorCheckbox.checked = false
-    scaleCheckbox.setAttribute("disabled",true)
-    colorCheckbox.setAttribute("disabled",true)
-
-    settings = {
-
-        singularChange: {
+      singularChange: {
+     
+      },
+      applyToAll: {
        
-        },
-        applyToAll: {
-         
-        }
-       
-       
-       }
-  
-  })
+      }
+     
+     
+     }
+
+}
+
+assetOptionsCancelButton.addEventListener("click",  resetOptionPane)
 
 
 
@@ -70,14 +69,17 @@ assetOptionsCancelButton.addEventListener("click", ()=>{
   })
 
   imageInput.addEventListener('change', async (event)=>{
-    const selectedFile = event.target.files[0];
-    if (selectedFile) {
+    const selectedFiles = event.target.files;
+    
+    console.log(selectedFiles)
+    Array.from(selectedFiles).forEach(selectedFile => {
+      if (selectedFile) {
         displayImagePreview(selectedFile,(imageUrl)=>{
            if(imageUrl){
               saveOptionButton.removeAttribute("disabled")
               // console.log(selectedElementType)
               if(selectedElementType){
-                window.iframeDoc.body.appendChild(imageUrl)
+                addImageToFrame(imageUrl)
               }
            }else{
             console.log("error returning url")
@@ -86,6 +88,8 @@ assetOptionsCancelButton.addEventListener("click", ()=>{
        
         
     }
+    });
+    
   })
 
   function displayImagePreview(file, callback) {
@@ -94,7 +98,12 @@ assetOptionsCancelButton.addEventListener("click", ()=>{
     reader.onload = function(event) {
       const imageUrl = event.target.result;
       populateImagePreview(imageUrl)
+      if(selectedElementType){
       settings.singularChange.imageUrl = imageUrl
+      }else{
+         settings.singularChange.imageUrl = settings.singularChange.imageUrl?.length >0  ? [...settings.singularChange.imageUrl]:[]
+         settings.singularChange.imageUrl.push(imageUrl)
+      }
       callback(imageUrl)
     };
 
@@ -130,6 +139,7 @@ assetOptionsCancelButton.addEventListener("click", ()=>{
        })
        localStorage.setItem('addedElements',JSON.stringify(addedElements))
      }
+     resetOptionPane()
   })
 
 

@@ -11,9 +11,9 @@ function editToolFunctions(editType){
 }
 
 function handleDelete () {
-    const iframeDoc = window.iframe.contentDocument || window.iframe.contentWindow.document
-     console.log(window.addedElements.length)
-    if(window.prevSelected && iframeDoc){
+    // const iframeDoc = window.iframe.contentDocument || window.iframe.contentWindow.document
+    //  console.log(window.addedElements.length)
+    if(window.prevSelected && window.iframeDoc){
         window.addedElements = window.addedElements.filter(element=>element.id !== window.prevSelected.id)
         window.prevSelected.remove()
     
@@ -24,21 +24,21 @@ function handleDelete () {
 
 function handleCopy(){
     alert("copy")
-    const iframeDoc = window.iframe.contentDocument || window.iframe.contentWindow.document
+    // const iframeDoc = window.iframe.contentDocument || window.iframe.contentWindow.document
     if(window.prevSelected && iframeDoc){
     const copiedElement = window.addedElements.find(element=>element.id === window.prevSelected.id)
     console.log(copiedElement)
 
     const  newElement = {
         ...copiedElement,
-        id: window.addedElements.length.toString()
+        id: generateRandomId(12)
     }
     console.log(newElement)
 
-    const element = createCircle(iframeDoc, newElement.type)
+    const element = createCircle(newElement.type)
     element.setAttribute("id", newElement.id)
 
-    iframeDoc.body.appendChild(element)
+    window.iframeDoc.body.appendChild(element)
     element.addEventListener('mousedown', window.handleSquareMouseDown);
 
     window.addedElements.push(newElement)

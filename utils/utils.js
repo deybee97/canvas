@@ -11,3 +11,20 @@ const populateImagePreview = (imageUrl) => {
     window.imagePreview.classList.add("visibility")
     
 }
+
+
+const addImageToFrame = (imageUrl) => {
+    var existingImage = window.iframeDoc.querySelector('img');
+
+    if (existingImage) {
+        existingImage.parentNode.removeChild(existingImage);
+    }
+
+    var image = new Image();
+    image.src = imageUrl;
+    image.style.width = '100%';
+    image.style.height = '100%';
+    image.style.objectFit = 'cover';
+    image.style.objectPosition = 'center';
+    window.iframeDoc.body.appendChild(image)
+}

@@ -33,7 +33,7 @@ body {
   }
   .asset-pane{
     /* background-color: #007bff; */
-    height: 70vh;
+    height: 20vh;
     display: flex;
     /* justify-content: space-between; */
     flex-direction: column;

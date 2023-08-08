@@ -82,36 +82,36 @@ const createCircle = (type,position ) => {
 
     // console.log(position)
    
-    let svgType = null
+    // let svgType = null
 
 
     var circle = window.iframeDoc.createElement('div');
  
-    var circleSize = 50;
+    var circleSize = 20;
     
    
     circle.classList.add('circle')
     circle.classList.add('iframe-element')
     circle.classList.add(type)
 
-    switch(type){
-        case "wall-element" :svgType = wallSVG
-        break
-        case "door-element" : svgType = doorSVG
-        break
-        case "outside-view-element" :  svgType = outsideViewSVG
-        break
-        case "window-element": svgType = windowSVG
-        break
-        case "upstairs-element": svgType = upstairsSVG
-        break
-        case "downstairs-element":  svgType = downstairsSVG
-        break
-        case "vr-element": svgType =vrSVG
-        break
-        default: console.log("type not available" , type)
+    // switch(type){
+    //     case "wall-element" :svgType = wallSVG
+    //     break
+    //     case "door-element" : svgType = doorSVG
+    //     break
+    //     case "outside-view-element" :  svgType = outsideViewSVG
+    //     break
+    //     case "window-element": svgType = windowSVG
+    //     break
+    //     case "upstairs-element": svgType = upstairsSVG
+    //     break
+    //     case "downstairs-element":  svgType = downstairsSVG
+    //     break
+    //     case "vr-element": svgType =vrSVG
+    //     break
+    //     default: console.log("type not available" , type)
         
-    }
+    // }
     // circle.classList.add("circle")
     
     circle.style.width = circleSize + 'px';
@@ -125,7 +125,7 @@ const createCircle = (type,position ) => {
 
     circle.style.left = position?.left ||`${posX}px`;
     circle.style.top = position?.top ||`${posY}px`;
-    circle.innerHTML = svgType;
+    // circle.innerHTML = svgType;
 
     circle.zIndex = 1
     return circle

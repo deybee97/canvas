@@ -78,9 +78,9 @@ function addFloor(existingFloor) {
 
 
 
-  addFloor(JSON.parse(localStorage.getItem('profile')))
+   addFloor(JSON.parse(localStorage.getItem('profile')))
     
-
+ 
 
 
 
@@ -183,10 +183,10 @@ elementsArray.forEach((element) => {
 }
 
 // Function to handle adding a new element under the selected floor
-function addElementToPane(floor, element, elementTypeId) {
+function addElementToPane(floor, element, elementTypeId, elementId) {
 
   // Get the selected floor
-  let addedElementId = element ? element.id : addedElements.length
+  let addedElementId = element ? element.id : elementId
  
 
 
@@ -199,7 +199,7 @@ function addElementToPane(floor, element, elementTypeId) {
     elementItem.classList.add("floor-element")
     elementItem.classList.add(elementTypeId)
     elementItem.setAttribute("id", addedElementId)
-    elementItem.textContent = element.name ? element.name : "New Element";
+    elementItem.textContent = element?.name ? element.name : "New Element";
 
     // Append the element item to the selected floor's nested list
     console.log(selectedFloor)
@@ -257,8 +257,10 @@ const handleHierarchyElement = (event,elementType) => {
       const {name, color, imageUrl} = selectedElementInfo
       
       assetDesc.value = name
+
       if(imageUrl){
-        populateImagePreview(imageUrl)
+        // image url in this case is an array
+        populateImagePreview(imageUrl[imageUrl.length-1])
       }
       
       assetColor.value = "#BEBCD3"
@@ -281,7 +283,7 @@ const handleHierarchyElement = (event,elementType) => {
   
 //   let elements = addedElements.filter(element=> (element.floor_id )== floor.id)
 
-  addedElements.forEach(element=> addElementToPane(null, element,element.type))
+  addedElements.forEach(element=> addElementToPane(null, element,element.type,null))
   
 
 
@@ -290,10 +292,10 @@ addFloorButton.addEventListener("click", addFloor);
 
 
 // add event listeners to all the asset buttons. Note that at this point there is only one asset button
-Array.from(addElementButton).forEach(element=>{
+// Array.from(addElementButton).forEach(element=>{
 
-  element.addEventListener("click", ()=>{addElementToPane(null,null,element.id)});
-})
+//   element.addEventListener("click", ()=>{addElementToPane(null,null,element.id)});
+// })
 
 
 

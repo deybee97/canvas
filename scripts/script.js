@@ -114,7 +114,7 @@ function handleTrackpadZoom(event) {
 canvasContainer.addEventListener('wheel', handleTrackpadZoom
 );
 
-function addElement(event) {
+function addElement(event,elementId) {
 
  console.log(event.target.id)
 
@@ -125,7 +125,7 @@ if(profile){
   const element = createCircle(event.target.id)
 
   // element.id = addedElements.length
-  element.setAttribute("id",addedElements.length)
+  element.setAttribute("id",elementId)
   
 
 
@@ -136,7 +136,7 @@ if(profile){
     left: element.style.left,
     top: element.style.top,
     type: event.target.id,
-    desc: "New Element",
+    name: "New Element",
     color: "#BEBCD3"
   })
 
@@ -150,7 +150,17 @@ if(profile){
 }
 }
 
+addImageToFrame(JSON.parse(localStorage.getItem('profile')).imageUrl)
 
-Array.from(addElementButton).forEach((element)=> element.addEventListener('click', (event)=>{addElement(event)}))
+
+Array.from(addElementButton).forEach((element)=> element.addEventListener('click', (event)=>{
+
+  // this id comes from the id of the button you use to add the element element.id === elementType
+  const elementType = element.id
+
+  const id = generateRandomId(12)
+  addElement(event, id)
+  addElementToPane(null,null,elementType,id)
+}))
 
 
