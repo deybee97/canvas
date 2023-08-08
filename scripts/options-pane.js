@@ -27,7 +27,7 @@ assetColor.addEventListener("change",(event)=>{
 
 assetDesc.addEventListener("change",(event)=>{
     saveOptionButton.removeAttribute("disabled")
-    settings.singularChange.desc = event.target.value
+    settings.singularChange.name = event.target.value
 })
 
 
@@ -69,31 +69,68 @@ assetOptionsCancelButton.addEventListener("click", ()=>{
     imageInput.click()
   })
 
-  imageInput.addEventListener('change', (event)=>{
-    const selectedFile = event.target.files;
+  imageInput.addEventListener('change', async (event)=>{
+    const selectedFile = event.target.files[0];
     if (selectedFile) {
-        displayImagePreview(selectedFile);
-        saveOptionButton.removeAttribute("disabled")
+        displayImagePreview(selectedFile,(imageUrl)=>{
+           if(imageUrl){
+              saveOptionButton.removeAttribute("disabled")
+              // console.log(selectedElementType)
+              if(selectedElementType){
+                window.iframeDoc.body.appendChild(imageUrl)
+              }
+           }else{
+            console.log("error returning url")
+           }
+        });
+       
+        
     }
   })
 
-  function displayImagePreview(file) {
+  function displayImagePreview(file, callback) {
     const reader = new FileReader();
 
     reader.onload = function(event) {
       const imageUrl = event.target.result;
-      const imageElement = document.createElement("img");
-      console.log(imageUrl)
-      imageElement.src = imageUrl;
-      imageElement.style.maxWidth = "100%";
-      
-      imagePreview.innerHTML = ""; // Clear previous preview
-      imagePreview.appendChild(imageElement);
-      imagePreview.classList.add("visibility")
+      populateImagePreview(imageUrl)
+      settings.singularChange.imageUrl = imageUrl
+      callback(imageUrl)
     };
 
     reader.readAsDataURL(file);
   }
+
+
+  saveOptionButton.addEventListener("click",(event)=>{
+
+
+    console.log(settings.singularChange)
+
+     if(selectedElementType === "profile"){
+
+      profile = {
+        ...profile,
+        ...settings.singularChange
+       }
+
+       localStorage.setItem('profile',JSON.stringify(profile))
+      
+     }else{
+       
+       addedElements = addedElements.map(element=>{
+          if(element.id === selectedElementId){
+            return {
+              ...element,
+              ...settings.singularChange
+            }
+          }else{
+            return element
+          }
+       })
+       localStorage.setItem('addedElements',JSON.stringify(addedElements))
+     }
+  })
 
 
   

@@ -60,12 +60,12 @@ const vrSVG = `
               </svg>
 `
 
-const createSquare = (iframeDoc, type, position) => {
+const createSquare = (type, position) => {
 
     const squareSize = 50;
    
   
-    const square = iframeDoc.createElement('div');
+    const square = window.iframeDoc.createElement('div');
     square.style.position = 'absolute';
     square.style.width = `${squareSize}px`;
     square.style.height = `${squareSize}px`;
@@ -78,14 +78,14 @@ const createSquare = (iframeDoc, type, position) => {
 }
 
 
-const createCircle = (iframeDoc, type,position ) => {
+const createCircle = (type,position ) => {
 
     // console.log(position)
    
     let svgType = null
 
 
-    var circle = iframeDoc.createElement('div');
+    var circle = window.iframeDoc.createElement('div');
  
     var circleSize = 50;
     

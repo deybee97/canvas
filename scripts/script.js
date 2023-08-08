@@ -3,7 +3,8 @@
 const canvasContainer = document.getElementById('canvas-container');
 
 
-window.iframe = document.getElementById('canvas');
+const iframe = document.getElementById('canvas');
+window.iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
 // const addButton = document.getElementById('add-button');
 // const addElementButton = document.getElementById('add-element-button')
 const zoomRange = document.getElementById('zoom-range');
@@ -119,9 +120,9 @@ function addElement(event) {
 
 if(profile){
 
-  const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+  
    
-  const element = createCircle(iframeDoc, event.target.id)
+  const element = createCircle(event.target.id)
 
   // element.id = addedElements.length
   element.setAttribute("id",addedElements.length)

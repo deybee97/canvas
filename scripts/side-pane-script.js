@@ -11,7 +11,7 @@ const shapePickerButton = document.getElementById("shape-button")
 const shapeContainer = document.getElementsByClassName("shape-container")
 const assetButton = document.getElementById("image-upload-button")
 const imageInput = document.getElementById("image-input")
-const imagePreview = document.getElementById("image-preview")
+window.imagePreview = document.getElementById("image-preview")
 const saveOptionButton = document.getElementById("save-button")
 const scaleCheckbox = document.getElementById("scale-checkbox")
 const colorCheckbox = document.getElementById("color-checkbox")
@@ -23,6 +23,7 @@ window.addedElements = localStorage.getItem('addedElements') ?  [...JSON.parse(l
 let selectedFloorId = 1
 let selectedElementId = null
 let selectedElement
+let selectedElementType = null
 
 //error?
 // let visible = false
@@ -50,6 +51,8 @@ function addFloor(existingFloor) {
   profile = {
     id: profileId,
     name:  existingFloor.id ? existingFloor.name : "new profile",
+    type: "profile",
+    imageUrl: existingFloor.imageUrl,
   }
 
   localStorage.setItem('profile',JSON.stringify(profile))
@@ -75,7 +78,7 @@ function addFloor(existingFloor) {
 
 
 
- addFloor(JSON.parse(localStorage.getItem('profile')))
+  addFloor(JSON.parse(localStorage.getItem('profile')))
     
 
 
@@ -112,10 +115,10 @@ function selectFloor(event) {
   });
 
   //remove all the content of the iframe
- const iframeDoc = window.iframe.contentDocument || window.iframe.contentWindow.document;
+//  const iframeDoc = window.iframe.contentDocument || window.iframe.contentWindow.document;
 
  // Get all elements in the iframe
-const allElements = iframeDoc.getElementsByClassName('iframe-element');
+const allElements = window.iframeDoc.getElementsByClassName('iframe-element');
 
 // Convert HTMLCollection to an array to iterate safely
 const elementsArray = Array.from(allElements);
@@ -148,10 +151,10 @@ elementsArray.forEach((element) => {
           top: elem.top,
         }
         // elem.type: e.g door-element, wall-element etc
-         const element =  createCircle(iframeDoc,elem.type, position)
+         const element =  createCircle(elem.type, position)
          element.setAttribute("id",elem.id)
         
-         iframeDoc.body.appendChild(element);
+         window.iframeDoc.body.appendChild(element);
          element.addEventListener('mousedown', handleSquareMouseDown);
       })
      
@@ -180,10 +183,10 @@ elementsArray.forEach((element) => {
 }
 
 // Function to handle adding a new element under the selected floor
-function addElementToPane(floor, elementId, elementTypeId) {
+function addElementToPane(floor, element, elementTypeId) {
 
   // Get the selected floor
-  let addedElementId = elementId ? elementId : addedElements.length
+  let addedElementId = element ? element.id : addedElements.length
  
 
 
@@ -196,7 +199,7 @@ function addElementToPane(floor, elementId, elementTypeId) {
     elementItem.classList.add("floor-element")
     elementItem.classList.add(elementTypeId)
     elementItem.setAttribute("id", addedElementId)
-    elementItem.textContent = "New Element";
+    elementItem.textContent = element.name ? element.name : "New Element";
 
     // Append the element item to the selected floor's nested list
     console.log(selectedFloor)
@@ -219,38 +222,52 @@ function addElementToPane(floor, elementId, elementTypeId) {
 
 function handleProfileDoubleClick(event) {
     console.log(event.target)
+    
     assetOptions.classList.add("profile")
     handleHierarchyElement(event,"profile")
 }
 
 const handleHierarchyElement = (event,elementType) => {
+  
   if(selectedElement){
     selectedElement.classList.remove("selected")
   }
   
   selectedElementId = event.target.id
- 
+  selectedElementType = elementType
  // get the data of selected element from added elements
   
   const selectedElementInfo = elementType ? profile :addedElements.find(element=> element.id === selectedElementId)
 
   console.log(selectedElementInfo)
  
-
+  imagePreview.innerHTML = ""
+  imagePreview.classList.remove("visibility")
    
   // dynamically add the existing value for the selected element
 
      if(elementType){
       assetDesc.value = selectedElementInfo.name
+      console.log(selectedElementInfo.imageUrl)
+      if(selectedElementInfo.imageUrl){
+        populateImagePreview(selectedElementInfo.imageUrl)
+      }
+      
      }else{
-      const {desc, color} = selectedElementInfo
-      assetDesc.value = desc
+      const {name, color, imageUrl} = selectedElementInfo
+      
+      assetDesc.value = name
+      if(imageUrl){
+        populateImagePreview(imageUrl)
+      }
+      
       assetColor.value = "#BEBCD3"
 
      }
     
     event.target.classList.add("selected")
     selectedElement = event.target
+    console.log(selectedElement)
     assetOptions.classList.add("visibility")
 }
 
@@ -264,7 +281,7 @@ const handleHierarchyElement = (event,elementType) => {
   
 //   let elements = addedElements.filter(element=> (element.floor_id )== floor.id)
 
-  addedElements.forEach(element=> addElementToPane(null, element.id,element.type))
+  addedElements.forEach(element=> addElementToPane(null, element,element.type))
   
 
 
@@ -272,7 +289,7 @@ const handleHierarchyElement = (event,elementType) => {
 addFloorButton.addEventListener("click", addFloor);
 
 
-// add event listeners to all the asset buttons.
+// add event listeners to all the asset buttons. Note that at this point there is only one asset button
 Array.from(addElementButton).forEach(element=>{
 
   element.addEventListener("click", ()=>{addElementToPane(null,null,element.id)});
