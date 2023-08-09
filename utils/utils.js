@@ -28,3 +28,16 @@ const addImageToFrame = (imageUrl) => {
     image.style.objectPosition = 'center';
     window.iframeDoc.body.appendChild(image)
 }
+
+function rgbStringToHex(rgbString) {
+    const components = rgbString.match(/\d+/g); // Extract numerical values
+    if (!components || components.length !== 3) {
+      return null; // Invalid input
+    }
+  
+    const r = parseInt(components[0]);
+    const g = parseInt(components[1]);
+    const b = parseInt(components[2]);
+  
+    return rgbToHex(r, g, b);
+  }

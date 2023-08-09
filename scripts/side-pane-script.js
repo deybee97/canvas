@@ -25,9 +25,13 @@ let selectedElementId = null
 let selectedElement
 let selectedElementType = null
 
+
 //error?
 // let visible = false
 
+//local storage 
+
+let cachedProfile = localStorage.getItem('profile')? JSON.parse(localStorage.getItem('profile')) : null
 
 
 
@@ -48,6 +52,7 @@ function addFloor(existingFloor) {
   floorItem.classList.add("floor-item")
   floorItem.innerText = existingFloor.name || "new Profile"
   floorItem.id = profileId
+  
   profile = {
     id: profileId,
     name:  existingFloor.id ? existingFloor.name : "new profile",
@@ -70,7 +75,11 @@ function addFloor(existingFloor) {
 
   // Add click event listener to the floor item
   floorItem.addEventListener("click", selectFloor);
-  floorItem.addEventListener("dblclick", handleProfileDoubleClick)
+  floorItem.addEventListener("dblclick",(event)=>{ 
+    
+    handleProfileDoubleClick(event)
+    
+  })
  }else{
   alert("floor already created")
  }
@@ -78,7 +87,7 @@ function addFloor(existingFloor) {
 
 
 
-   addFloor(JSON.parse(localStorage.getItem('profile')))
+   
     
  
 
@@ -90,93 +99,27 @@ function selectFloor(event) {
  
   
   const selectedFloor = event.target;
-
   
+  console.log("selectFloor")
 
-  let close = false
+  // let close = false
 
  
   if(selectedFloor.classList.contains("floor-element")){
+    console.log("floor element")
    
     return
   }
 
   if(selectedFloor.classList.contains("selected")){
-
-    close = true
+     console.log("removed")
+    selectedFloor.classList.remove("selected")
+    return
+    // close = true
   }
-
-  
-  // Remove the selected class from all floor items
-  const floorItems = document.querySelectorAll("#floor-list li");
-  console.log(floorItems)
-  floorItems.forEach((item) => {
-    item.classList.remove("selected");
-  });
-
-  //remove all the content of the iframe
-//  const iframeDoc = window.iframe.contentDocument || window.iframe.contentWindow.document;
-
- // Get all elements in the iframe
-const allElements = window.iframeDoc.getElementsByClassName('iframe-element');
-
-// Convert HTMLCollection to an array to iterate safely
-const elementsArray = Array.from(allElements);
-
-// Remove each element from the iframe content
-elementsArray.forEach((element) => {
-  element.remove();
-});
-
-  // Add the selected class to the clicked floor item
-
-  
-  //store the id of the selected floor to be used by the elements
-  selectedFloorId = event.target.id
-  
-  console.log(selectedFloorId)
-
-  // get all elements that belong to the floor
-  const floorElement = addedElements.filter(elem=> elem.floor_id === selectedFloorId)
-   
 
   // add elements to the iframe
-  if(floorElement.length > 0){
 
-   
-      floorElement.forEach(elem=>{
-       
-        let position = {
-          left: elem.left,
-          top: elem.top,
-        }
-        // elem.type: e.g door-element, wall-element etc
-         const element =  createCircle(elem.type, position)
-         element.setAttribute("id",elem.id)
-        
-         window.iframeDoc.body.appendChild(element);
-         element.addEventListener('mousedown', handleSquareMouseDown);
-      })
-     
-      
-  }
-
-
- 
-
-  // const elementContainer = document.querySelector(`#floor${selectedFloorId}.elements-container`)
-  
- 
-
-  const floorElementContainer = document.querySelector(`#floor${selectedFloorId}.elements-container`)
-  
-  if(close){
-    selectedFloor.classList.remove("selected")
-
-    return
-  }
-
-  
 
   selectedFloor.classList.add("selected");
 
@@ -239,7 +182,7 @@ const handleHierarchyElement = (event,elementType) => {
   
   const selectedElementInfo = elementType ? profile :addedElements.find(element=> element.id === selectedElementId)
 
-  console.log(selectedElementInfo)
+
  
   imagePreview.innerHTML = ""
   imagePreview.classList.remove("visibility")
@@ -248,14 +191,20 @@ const handleHierarchyElement = (event,elementType) => {
 
      if(elementType){
       assetDesc.value = selectedElementInfo.name
-      console.log(selectedElementInfo.imageUrl)
+    
       if(selectedElementInfo.imageUrl){
         populateImagePreview(selectedElementInfo.imageUrl)
       }
       
      }else{
+      // check script.js for reference
+      if(window.prevSelected){
+        window.prevSelected.style.border = "none"
+      }
+      window.prevSelected = window.iframeDoc.querySelector(`.iframe-element#${selectedElementId}`)
+      window.prevSelected.style.border = "2px solid grey"
       const {name, color, imageUrl} = selectedElementInfo
-      
+      console.log(color)
       assetDesc.value = name
 
       if(imageUrl){
@@ -263,14 +212,20 @@ const handleHierarchyElement = (event,elementType) => {
         populateImagePreview(imageUrl[imageUrl.length-1])
       }
       
-      assetColor.value = "#BEBCD3"
+      assetColor.value = color
 
      }
     
     event.target.classList.add("selected")
     selectedElement = event.target
-    console.log(selectedElement)
+   
     assetOptions.classList.add("visibility")
+}
+
+
+if(cachedProfile)
+{
+  addFloor(cachedProfile)
 }
 
 
@@ -283,8 +238,8 @@ const handleHierarchyElement = (event,elementType) => {
   
 //   let elements = addedElements.filter(element=> (element.floor_id )== floor.id)
 
-  addedElements.forEach(element=> addElementToPane(null, element,element.type,null))
-  
+addedElements.forEach(element=> addElementToPane(null, element,element.type,null))
+
 
 
 // Attach event listeners

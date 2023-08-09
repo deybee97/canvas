@@ -24,7 +24,7 @@ let initialScale = parseFloat(zoomRange.value);
 let isMouseMoving = false;
 let offsetX = 0;
 let offsetY = 0;
-let selectedSquare = null;
+window.selectedSquare = null;
 window.prevSelected = selectedSquare
 
 
@@ -126,10 +126,7 @@ if(profile){
 
   // element.id = addedElements.length
   element.setAttribute("id",elementId)
-  
 
-
-  
   addedElements.push({
     id: element.id,
     floor_id: selectedFloorId,
@@ -150,7 +147,29 @@ if(profile){
 }
 }
 
-addImageToFrame(JSON.parse(localStorage.getItem('profile')).imageUrl)
+if(cachedProfile?.imageUrl){
+  addImageToFrame(cachedProfile.imageUrl)
+}
+
+if(addedElements.length > 0 && profile){
+
+
+   
+  addedElements.forEach(elem=>{
+   
+    let position = {
+      left: elem.left,
+      top: elem.top,
+    }
+    // elem.type: e.g door-element, wall-element etc
+     const element =  createCircle(elem.type, position)
+     element.setAttribute("id",elem.id)
+    
+     window.iframeDoc.body.appendChild(element);
+     element.addEventListener('mousedown', handleSquareMouseDown);
+  })
+  
+}
 
 
 Array.from(addElementButton).forEach((element)=> element.addEventListener('click', (event)=>{

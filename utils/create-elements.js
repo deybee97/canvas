@@ -80,7 +80,7 @@ const createSquare = (type, position) => {
 
 const createCircle = (type,position ) => {
 
-    // console.log(position)
+  console.log(type,position)
    
     // let svgType = null
 
