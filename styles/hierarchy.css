@@ -54,7 +54,7 @@
     padding: 50px 10px 50px 30px;
   }
   
-  #floor-list .floor-item::before {
+  .floor-button::before {
     content:'';
     display: inline-block;
     background-image: url('../assets/caret-right-solid.svg');
@@ -68,7 +68,7 @@
 
 
 
-  #floor-list .floor-item.selected::before{
+  .floor-button.selected::before{
 
     content:'';
     display: inline-block;
@@ -83,6 +83,8 @@
   #floor-list .floor-item.selected > ul {
     display: block;
   } 
+  
+
   .elements-container{
     display: none;
   }

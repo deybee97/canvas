@@ -78,16 +78,16 @@ const createSquare = (type, position) => {
 }
 
 
-const createCircle = (type,position ) => {
+const createCircle = (type,position,color ) => {
 
-  console.log(type,position)
+  console.log(type,position, color)
    
     // let svgType = null
 
 
     var circle = window.iframeDoc.createElement('div');
  
-    var circleSize = 20;
+    var circleSize = 13;
     
    
     circle.classList.add('circle')
@@ -117,7 +117,7 @@ const createCircle = (type,position ) => {
     circle.style.width = circleSize + 'px';
     circle.style.height = circleSize + 'px';
     circle.style.borderRadius = '50%';
-    circle.style.background = 'rgb(191, 188, 211)';
+    circle.style.background =  color ? color:'rgb(191, 188, 211)';
     circle.style.position = 'absolute';
     circle.style.display ="flex"
     circle.style.justifyContent = "center"; // To center the image horizontally

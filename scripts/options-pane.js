@@ -4,7 +4,7 @@
 // then change it back to what was there before, so you wont have to go through the stress of
 //resaving zero changes
 
-const settings = {
+let settings = {
 
  singularChange: {
 
@@ -21,7 +21,7 @@ const settings = {
 
 assetColor.addEventListener("change",(event)=>{
     saveOptionButton.removeAttribute("disabled")
-    colorCheckbox.removeAttribute("disabled")
+    //  colorCheckbox.removeAttribute("disabled")
     settings.singularChange.color = event.target.value
 })
 
@@ -39,10 +39,10 @@ const resetOptionPane =  ()=>{
   selectedElement.classList.remove("selected")
 
   saveOptionButton.setAttribute("disabled",true)
-  scaleCheckbox.checked = false
-  colorCheckbox.checked = false
-  scaleCheckbox.setAttribute("disabled",true)
-  colorCheckbox.setAttribute("disabled",true)
+  // scaleCheckbox.checked = false
+  // colorCheckbox.checked = false
+  // scaleCheckbox.setAttribute("disabled",true)
+  // colorCheckbox.setAttribute("disabled",true)
 
   settings = {
 
@@ -55,6 +55,7 @@ const resetOptionPane =  ()=>{
      
      
      }
+     assetOptions.classList.remove("profile")
 
 }
 

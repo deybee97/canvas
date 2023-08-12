@@ -115,11 +115,12 @@ canvasContainer.addEventListener('wheel', handleTrackpadZoom
 );
 
 function addElement(event,elementId) {
+   
 
  console.log(event.target.id)
 
 if(profile){
-
+ 
   
    
   const element = createCircle(event.target.id)
@@ -162,7 +163,7 @@ if(addedElements.length > 0 && profile){
       top: elem.top,
     }
     // elem.type: e.g door-element, wall-element etc
-     const element =  createCircle(elem.type, position)
+     const element =  createCircle(elem.type, position, elem.color)
      element.setAttribute("id",elem.id)
     
      window.iframeDoc.body.appendChild(element);

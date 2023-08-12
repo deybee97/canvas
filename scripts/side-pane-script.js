@@ -16,6 +16,9 @@ const saveOptionButton = document.getElementById("save-button")
 const scaleCheckbox = document.getElementById("scale-checkbox")
 const colorCheckbox = document.getElementById("color-checkbox")
 
+//we are selecting only one because we are working with only 1 floor
+let floorItemButton = null
+
 
 //global variable
 let profile = null
@@ -43,6 +46,7 @@ function addFloor(existingFloor) {
 
 
   if(!profile){
+  
   let profileId = existingFloor?.id || generateRandomId(12);
 
 
@@ -50,7 +54,12 @@ function addFloor(existingFloor) {
 
   const floorItem = document.createElement("li");
   floorItem.classList.add("floor-item")
-  floorItem.innerText = existingFloor.name || "new Profile"
+  
+
+  
+
+  const floorInnerDivText = existingFloor.name || "new Profile"
+  
   floorItem.id = profileId
   
   profile = {
@@ -73,9 +82,34 @@ function addFloor(existingFloor) {
   // Add the floor item to the hierarchy pane
   floorList.appendChild(floorItem);
 
+  const floorInnerDiv = document.createElement("div")
+  floorInnerDiv.innerText =floorInnerDivText
+  floorInnerDiv.style.display ="inline-block"
+  
+  floorItem.insertBefore(floorInnerDiv, floorItem.firstChild)
+
+  const floorButton = document.createElement("button");
+  floorButton.classList.add("floor-button");
+  floorButton.classList.add(profileId)
+
+
+  // Add some basic styling to the button
+
+  floorButton.style.backgroundColor = "#D9D9D9";
+  floorButton.style.color = "white";
+  floorButton.style.border = "none";
+  floorButton.style.cursor = "pointer";
+
+  floorItemButton = floorButton
+
+  floorItem.insertBefore(floorButton, floorItem.firstChild);
+
+ 
+ 
   // Add click event listener to the floor item
-  floorItem.addEventListener("click", selectFloor);
-  floorItem.addEventListener("dblclick",(event)=>{ 
+  // floorButton.addEventListener("click", selectFloor);
+
+  floorInnerDiv.addEventListener("click",(event)=>{ 
     
     handleProfileDoubleClick(event)
     
@@ -98,7 +132,18 @@ function selectFloor(event) {
 
  
   
-  const selectedFloor = event.target;
+  let selectedFloor = event.target;
+  
+
+  if(selectedFloor.classList.contains("floor-button")){
+    console.log(selectedFloor)
+    if(selectedFloor.classList.contains("selected")){
+      selectedFloor.classList.remove("selected")
+    }else{
+      selectedFloor.classList.add("selected")
+    }
+    selectedFloor = document.getElementById(selectedFloor.classList[1])
+  }
   
   console.log("selectFloor")
 
@@ -223,10 +268,13 @@ const handleHierarchyElement = (event,elementType) => {
 }
 
 
+
+
 if(cachedProfile)
 {
   addFloor(cachedProfile)
 }
+
 
 
 
@@ -244,6 +292,8 @@ addedElements.forEach(element=> addElementToPane(null, element,element.type,null
 
 // Attach event listeners
 addFloorButton.addEventListener("click", addFloor);
+
+floorItemButton.addEventListener('click', selectFloor )
 
 
 // add event listeners to all the asset buttons. Note that at this point there is only one asset button
