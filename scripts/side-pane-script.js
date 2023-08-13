@@ -199,7 +199,7 @@ function addElementToPane(floor, element, elementTypeId, elementId) {
 
 
     // event listener for elements in the hierarchy pane
-    elementItem.addEventListener("click",(event)=>{handleHierarchyElement(event)})
+    elementItem.addEventListener("click",(event)=>{handleHierarchyElement(event,"elements")})
   // } else {
   //   alert("Please select a floor first.");
   // }
@@ -211,11 +211,17 @@ function addElementToPane(floor, element, elementTypeId, elementId) {
 function handleProfileDoubleClick(event) {
     console.log(event.target)
     
-    assetOptions.classList.add("profile")
+   
     handleHierarchyElement(event,"profile")
 }
 
 const handleHierarchyElement = (event,elementType) => {
+  
+  console.log(event.target)
+  assetOptions.classList.remove("profile")
+  assetOptions.classList.remove("elements")
+ 
+  assetOptions.classList.add(elementType)
   
   if(selectedElement){
     selectedElement.classList.remove("selected")
@@ -225,8 +231,9 @@ const handleHierarchyElement = (event,elementType) => {
   selectedElementType = elementType
  // get the data of selected element from added elements
   
-  const selectedElementInfo = elementType ? profile :addedElements.find(element=> element.id === selectedElementId)
-
+  const selectedElementInfo = elementType === "profile" ? profile :addedElements.find(element=> element.id === selectedElementId)
+  
+  console.log(selectedElementInfo)
 
  
   imagePreview.innerHTML = ""
@@ -234,7 +241,7 @@ const handleHierarchyElement = (event,elementType) => {
    
   // dynamically add the existing value for the selected element
 
-     if(elementType){
+     if(elementType=="profile"){
       assetDesc.value = selectedElementInfo.name
     
       if(selectedElementInfo.imageUrl){

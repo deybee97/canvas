@@ -70,9 +70,18 @@ window.handleSquareMouseDown = (event)=> {
     
   }
 
+  function handleIframeElementCLick(event){
+    
+    console.log(event.target.id)
+
+    handleHierarchyElement(event)
+
+
+  }
+
   iframe.contentDocument.addEventListener('mousemove', handleMouseMove);
   iframe.contentDocument.addEventListener('mouseup', handleMouseUp);
-
+  iframe.contentDocument.addEventListener("dblclick", handleIframeElementCLick)
 
 
 // Function to handle zooming
