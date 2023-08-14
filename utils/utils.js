@@ -38,6 +38,6 @@ function rgbStringToHex(rgbString) {
     const r = parseInt(components[0]);
     const g = parseInt(components[1]);
     const b = parseInt(components[2]);
-  
+    
     return rgbToHex(r, g, b);
   }

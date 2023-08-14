@@ -14,6 +14,10 @@ body {
   box-sizing: border-box;
 }
 
+a{
+  text-decoration: none;
+}
+
 
 
 
@@ -198,7 +202,7 @@ body {
  
 
   .nav-bar{
-    height: 10%;
+    height: 80px;
     padding: 20px;
     background: rgba(131, 130, 130, 0.81);
     display: flex;
@@ -206,6 +210,7 @@ body {
     position: relative;
     z-index: 1;
     /* justify-content: space-around; */
+    width: 100vw;
   }
   .frequently-used-asset-container{
     display: flex;

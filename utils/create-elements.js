@@ -85,7 +85,7 @@ const createCircle = (type,position,color ) => {
     // let svgType = null
 
 
-    var circle = window.iframeDoc.createElement('div');
+    var circle =  document.createElement('div');
  
     var circleSize = 13;
     

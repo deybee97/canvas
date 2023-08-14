@@ -69,6 +69,7 @@ assetOptionsCancelButton.addEventListener("click",  resetOptionPane)
     imageInput.click()
   })
 
+
   imageInput.addEventListener('change', async (event)=>{
     const selectedFiles = event.target.files;
     
@@ -79,7 +80,7 @@ assetOptionsCancelButton.addEventListener("click",  resetOptionPane)
            if(imageUrl){
               saveOptionButton.removeAttribute("disabled")
               // console.log(selectedElementType)
-              if(selectedElementType){
+              if(selectedElementType === "profile"){
                 addImageToFrame(imageUrl)
               }
            }else{
@@ -99,7 +100,7 @@ assetOptionsCancelButton.addEventListener("click",  resetOptionPane)
     reader.onload = function(event) {
       const imageUrl = event.target.result;
       populateImagePreview(imageUrl)
-      if(selectedElementType){
+      if(selectedElementType === "profile"){
       settings.singularChange.imageUrl = imageUrl
       }else{
          settings.singularChange.imageUrl = settings.singularChange.imageUrl?.length >0  ? [...settings.singularChange.imageUrl]:[]
