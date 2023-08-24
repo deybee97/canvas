@@ -26,7 +26,50 @@ const deleteElement = async (req,res) => {
       }
 }
 
-const modifyElement = (req,res) => {
+const modifyElement = async(req,res) => {
+
+    const {profileId,elementId} = req.query
+    const {color, imageUrl, name} = req.body
+
+    try {
+        const profileRef = db.collection("profile").doc(profileId);
+        const profileDoc = await profileRef.get();
+    
+        if (!profileDoc.exists) {
+          res.status(400).json({success:false, message: "element doesnt exist"})
+        }
+    
+        const elementRef = profileRef.collection("elements").doc(elementId);
+        const elementDoc = await elementRef.get();
+    
+        if (!elementDoc.exists) {
+            res.status(400).json({success:false, message: "element doesnt exist"})
+        }
+    
+        // Create an object with the properties to update
+        const updatedData = {};
+        if (color) {
+            updatedData.color = color;
+        }
+        if (name) {
+          updatedData.name = name;
+        }
+        if (imageUrl) {
+          updatedData.imageUrl = imageUrl;
+        }
+        // ... other properties to update
+    
+        if (Object.keys(updatedData).length === 0) {
+          res.status(400).json({success:false, message: "provide one or more changes"})
+        }
+    
+        await elementRef.update(updatedData);
+
+        res.status(200).json({success:true})
+        console.log("Element updated successfully");
+      } catch (error) {
+        console.error("Error updating element:", error);
+      }
     
 }
 

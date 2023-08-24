@@ -54,12 +54,13 @@ const init = async()=> {
              element.setAttribute("id",elem.id)
             
              iframeDoc.body.appendChild(element);
+             addedElements.push(elem)
              element.addEventListener('mousedown', handleSquareMouseDown);
           })
     }
 
     if(profile.imageUrl){
-        addImageToFrame(response.imageUrl, iframeDoc)
+        addImageToFrame(profile.imageUrl, iframeDoc)
         }
       
 

@@ -21,7 +21,7 @@ const parentDiv = document.querySelector('.top-pane-tools');
 // Select all the SVG elements within the parent div
 const svgElements = parentDiv.querySelectorAll('svg');
 
-
+ 
 
 //global variable 
 const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;

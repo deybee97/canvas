@@ -74,9 +74,18 @@ assetOptionsCancelButton.addEventListener("click",  resetOptionPane)
     const selectedFiles = event.target.files;
     
     console.log(selectedFiles)
+    let url = ""
+    
+    //check if its profile or not to determine with api end point to call
+    if(selectedElementType === "profile"){
+      url =`http://localhost:3000/api/v1/profile/uploads`
+    }else{
+      url = `http://localhost:3000/api/v1/elements/uploads`
+    }
+
     Array.from(selectedFiles).forEach(selectedFile => {
       if (selectedFile) {
-        displayImagePreview(selectedFile,(imageUrl)=>{
+        displayImagePreview(selectedFile,url,(imageUrl)=>{
            if(imageUrl){
               saveOptionButton.removeAttribute("disabled")
               // console.log(selectedElementType)
@@ -96,40 +105,81 @@ assetOptionsCancelButton.addEventListener("click",  resetOptionPane)
     
   })
 
-  function displayImagePreview(file, callback) {
-    const reader = new FileReader();
+  async function displayImagePreview(file, url, callback) {
+    // const reader = new FileReader();
 
-    reader.onload = function(event) {
-      const imageUrl = event.target.result;
-      populateImagePreview(imageUrl, imagePreview)
+    // reader.onload = function(event) {
+    //   const imageUrl = event.target.result;
+    //   populateImagePreview(imageUrl, imagePreview)
+    //   if(selectedElementType === "profile"){
+    //   settings.singularChange.imageUrl = imageUrl
+    //   }else{
+    //      settings.singularChange.imageUrl = settings.singularChange.imageUrl?.length >0  ? [...settings.singularChange.imageUrl]:[]
+    //      settings.singularChange.imageUrl.push(imageUrl)
+    //   }
+    //   callback(imageUrl)
+    // };
+
+    // reader.readAsDataURL(file);
+    const formData = new FormData();
+    formData.append('image',file)
+    try {
+     const {data:{image:{src}}} = await axios.post(`${url}`,formData,{
+      headers:{
+       'Content-Type':'multipart/form-data'
+      }
+     })
+
+      populateImagePreview(src, imagePreview)
       if(selectedElementType === "profile"){
-      settings.singularChange.imageUrl = imageUrl
+      settings.singularChange.imageUrl = src
       }else{
          settings.singularChange.imageUrl = settings.singularChange.imageUrl?.length >0  ? [...settings.singularChange.imageUrl]:[]
-         settings.singularChange.imageUrl.push(imageUrl)
+         settings.singularChange.imageUrl.push(src)
       }
-      callback(imageUrl)
-    };
+      callback(src)
+    } catch (error) { 
+  
+     console.log(error);
+    }
 
-    reader.readAsDataURL(file);
   }
 
 
-  saveOptionButton.addEventListener("click",(event)=>{
+  saveOptionButton.addEventListener("click",async(event)=>{
 
 
-    console.log(settings.singularChange)
+    console.log(settings.singularChange, selectedElementType)
 
      if(selectedElementType === "profile"){
-
+      
       profile = {
         ...profile,
         ...settings.singularChange
        }
 
        localStorage.setItem('profile',JSON.stringify(profile))
+
+       //save settings to database
+       try {
+        const res = await axios.put(`http://localhost:3000/api/v1/profile/settings?profileId=${dynamicURL}`,
+        {
+         ...settings.singularChange
+        },
+         {
+           "Content-Type":"application/json"
+         }
+        )
+        console.log(res)
+       
+      } catch (error) {
+       
+      }
+
       
      }else{
+
+      console.log("entereed", selectedElementType )
        
        addedElements = addedElements.map(element=>{
           if(element.id === selectedElementId){
@@ -141,9 +191,28 @@ assetOptionsCancelButton.addEventListener("click",  resetOptionPane)
             return element
           }
        })
+
        localStorage.setItem('addedElements',JSON.stringify(addedElements))
+
+       //save settings to database
+       try {
+         const res = await axios.put(`http://localhost:3000/api/v1/elements/settings?profileId=${dynamicURL}&elementId=${selectedElementId}`,
+         {
+          ...settings.singularChange
+         },
+          {
+            "Content-Type":"application/json"
+          }
+         )
+         console.log(res)
+        
+       } catch (error) {
+        
+       }
      }
+
      resetOptionPane()
+     
   })
 
 

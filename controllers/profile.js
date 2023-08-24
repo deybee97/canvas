@@ -48,10 +48,11 @@ const deleteProfile = async (req, res) => {
 
 const modifyProfile = async (req, res) => {
     // Get profile ID from request parameters or body
-    const profileId = req.params.profileId; // Assuming you're passing profileId as a URL parameter
-  
+    const {profileId} = req.query; // Assuming you're passing profileId as a URL parameter
+    console.log(profileId)
     // Get updated profile details from request body
-    const { profileName, imageUrl, description } = req.body;
+    const { name:profileName, imageUrl, description } = req.body;
+    console.log(imageUrl, 'profile name')
   
     try {
       const profileRef = db.collection("profile").doc(profileId);
@@ -64,19 +65,24 @@ const modifyProfile = async (req, res) => {
       }
   
       // Update the profile fields if they are provided in the request body
-      const updatedFields = {};
+      const updatedData = {};
       if (profileName !== undefined) {
-        updatedFields.profileName = profileName;
+        updatedData.profileName = profileName;
       }
-      if (imageUrl !== undefined) {
-        updatedFields.imageUrl = imageUrl;
+      if (imageUrl ) {
+        updatedData.imageUrl = imageUrl;
       }
       if (description !== undefined) {
-        updatedFields.description = description;
+        updatedData.description = description;
+      }
+
+      
+      if (Object.keys(updatedData).length === 0) {
+        res.status(400).json({success:false, message: "provide one or more changes"})
       }
   
       // Apply the updates using profileRef.update()
-      await profileRef.update(updatedFields);
+      await profileRef.update(updatedData);
   
       res.status(200).json({ success: true, message: "Profile updated successfully" });
     } catch (error) {
@@ -101,7 +107,7 @@ const modifyProfile = async (req, res) => {
       }
   
       const profileData = profileDoc.data();
-    
+      
       res.status(200).json({ success: true, profile: profileData });
     } catch (error) {
       console.error(error);
