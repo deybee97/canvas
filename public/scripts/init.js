@@ -34,14 +34,17 @@ const init = async()=> {
     //       }
 
     // }else{
-   const {profile, elements}= await getProfileDataInit()
-    console.log(profile)
+
+  
+
+   const {profile, elements}= await getProfileDataInit(dynamicURL)
+    console.log(profile, elements)
    if(profile){
     addFloor(profile)
 
     if(elements){
 
-        elements.forEach(element=> addElementToPane(null, element,element.type,null))
+        elements.forEach(element=> addElementToPane(null, element))
 
         elements.forEach(elem=>{
    
@@ -52,9 +55,9 @@ const init = async()=> {
             // elem.type: e.g door-element, wall-element etc
              const element =  createCircle(elem.type, position, elem.color)
              element.setAttribute("id",elem.id)
-            
+             console.log(element)
              iframeDoc.body.appendChild(element);
-             addedElements.push(elem)
+             addedElements.push({...elem, element})
              element.addEventListener('mousedown', handleSquareMouseDown);
           })
     }

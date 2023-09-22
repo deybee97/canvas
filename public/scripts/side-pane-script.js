@@ -1,11 +1,6 @@
 // Get necessary elements
 
-// Get the pathname (path part of the URL)
-const pathname = window.location.pathname; // Returns "/profile/dynamic-url"
 
-// Split the pathname to get the dynamic URL parameter
-const parts = pathname.split("/"); // Splits into ["", "profile", "dynamic-url"]
-window.dynamicURL = parts[2]; 
 
 
 
@@ -43,6 +38,7 @@ function addFloor(existingFloor) {
   }
 
   localStorage.setItem('profile',JSON.stringify(profile))
+  
 
   // Create a nested list for the elements under the floor
   const elementList = document.createElement("ul");
@@ -144,39 +140,39 @@ function selectFloor(event) {
 }
 
 // Function to handle adding a new element under the selected floor
-function addElementToPane(floor, element, elementTypeId, elementId) {
+// function addElementToPane(floor, element, elementTypeId, elementId) {
 
-  // Get the selected floor
-  let addedElementId = element ? element.id : elementId
+//   // Get the selected floor
+//   let addedElementId = element ? element.id : elementId
  
  
 
-  const selectedFloor = document.getElementById(floor?.id) || document.querySelector("#floor-list li");
+//   const selectedFloor = document.getElementById(floor?.id) || document.querySelector("#floor-list li");
 
 
-  // if (window.selectedFloor) {
-    // Create a new element item
-    const elementItem = document.createElement("li");
-    elementItem.classList.add("floor-element")
-    elementItem.classList.add(elementTypeId)
-    elementItem.setAttribute("id", addedElementId)
-    elementItem.textContent = element?.name ? element.name : "New Element";
+//   // if (window.selectedFloor) {
+//     // Create a new element item
+//     const elementItem = document.createElement("li");
+//     elementItem.classList.add("floor-element")
+//     elementItem.classList.add(elementTypeId)
+//     elementItem.setAttribute("id", addedElementId)
+//     elementItem.textContent = element?.name ? element.name : "New Element";
 
-    // Append the element item to the selected floor's nested list
-    console.log(selectedFloor)
-    const elementList = selectedFloor.querySelector("ul");
+//     // Append the element item to the selected floor's nested list
+//     console.log(selectedFloor)
+//     const elementList = selectedFloor.querySelector("ul");
     
-    elementList.classList.add("elements-container")
+//     elementList.classList.add("elements-container")
     
-    elementList.appendChild(elementItem);
+//     elementList.appendChild(elementItem);
 
 
-    // event listener for elements in the hierarchy pane
-    elementItem.addEventListener("click",(event)=>{handleHierarchyElement(event,"elements")})
-  // } else {
-  //   alert("Please select a floor first.");
-  // }
-}
+//     // event listener for elements in the hierarchy pane
+//     elementItem.addEventListener("click",(event)=>{handleHierarchyElement(event,"elements")})
+//   // } else {
+//   //   alert("Please select a floor first.");
+//   // }
+// }
 
 
 //onclick element in the hierarchy, the right side pane appears with all the info of the elements
@@ -229,10 +225,22 @@ const handleHierarchyElement = (event,elementType) => {
       window.prevSelected = iframeDoc.querySelector(`.iframe-element#${selectedElementId}`)
       window.prevSelected.style.border = "2px solid grey"
    
-      const {name, color, imageUrl} = selectedElementInfo
-      console.log(color)
+      const {name, color, imageUrl, customSetting} = selectedElementInfo
+      
       assetDesc.value = name
 
+      //loop throught the custom setting and populate the option-pane
+      console.log(customSetting)
+      customContent.innerHTML = ""
+      for (let key in customSetting) {
+        if (customSetting.hasOwnProperty(key)) {
+          // console.log(key + ': ' + customSetting[key]);
+          createCustomSetting(customContent, key, customSetting[key],(customChange)=>{
+            console.log(customChange)
+              settings.customChange = customChange
+           })
+        }
+      }
       if(imageUrl){
         // image url in this case is an array
         populateImagePreview(imageUrl[imageUrl.length-1], imagePreview)
@@ -256,30 +264,7 @@ const handleHierarchyElement = (event,elementType) => {
 //   addFloor(cachedProfile)
 // }
 
-async function getProfileDataInit(){
-  //make a request to database to get profile
-  console.log(dynamicURL)
-  try {
 
-    const resProfile= await axios.get(`http://localhost:3000/api/v1/profile?profileId=${dynamicURL}`,
-      {
-        'Content-Type':'application/json'
-      }
-    )
-
-    
-    const resElements = await axios.get(`http://localhost:3000/api/v1/elements?profileId=${dynamicURL}`)
-      
-    const response = {
-      profile: resProfile.data.profile,
-      elements: resElements? resElements.data.data:[]
-    }
-
-    return response
-  } catch (error) {
-    
-  }
-}
 
 
 

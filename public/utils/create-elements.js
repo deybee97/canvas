@@ -127,6 +127,6 @@ const createCircle = (type,position,color ) => {
     circle.style.top = position?.top ||`${posY}px`;
     // circle.innerHTML = svgType;
 
-    circle.zIndex = 1
+    // circle.zIndex = 1
     return circle
 }

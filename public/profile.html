@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>Photo Editing Web App</title>
+  <script src="/public/apis/profile.js"></script>
   <script src="/public/utils/create-elements.js"></script>
   <script src="/public/utils/edit-tools.js"></script>
   <script src="https://kit.fontawesome.com/b7db079590.js" crossorigin="anonymous"></script>
@@ -11,6 +12,7 @@
   <link rel="stylesheet" type="text/css" href="/public/styles/elements.css"/>
   <link rel="stylesheet" type="text/css" href="/public/styles/hierarchy.css"/>
   <link rel="stylesheet" type="text/css" href="/public/styles/styles.headers.css"/>
+
 </head>
 <body>
   <div class="section">
@@ -33,7 +35,7 @@
         </button>
       </div>
       <div class="nav-end">
-        <button class="preview-button"><a href="/preview.html">preview</a></button>
+        <button id="preview-button" class="preview-button">preview</button>
         <button class="sign-in-button">Sign in</button>
       </div>
     </nav>
@@ -132,6 +134,7 @@
         
       </div>
 
+      <!-- asset option setting -->
       <div id="asset-options">
         <div id="cancel-button-div">
           <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50" fill="none">
@@ -151,9 +154,9 @@
           </div>
         </div>
  
-        <div  class="thin-line-container" style="justify-content: flex-start;">
+        <div  class="thin-line-container asset-input">
           <h6>ADD DESCRIPTION :</h6>
-          <input  id="asset-desc"class="scale-input" type="text" style="width: 50%"/>
+          <input  id="asset-desc"class="desc-input" type="text" style="width: 50%"/>
         </div>
         <div class="thin-line-container" id="color-option">
           <h6>COLOR</h6>
@@ -161,9 +164,21 @@
           <div class="scale-container">
         </div>
         </div>
-
-
-        
+       <div class="custom-container">
+        <div class="thin-line-container">
+          <h6>Custom</h6>
+          <button class="asset-button" id="custom-asset-btn">+</button>
+          
+        </div>
+        <div id="custom-content">
+          <!-- dummy input -->
+          <div class="thin-line-container asset-input" id="your-unique-id"  style="display: none;">
+            <input class="desc-input title-input your-unique-id" style="width: 50%;" placeholder="Add Title" type="text">
+            <h6>:</h6>
+            <input class="desc-input value-input your-unique-id" style="width: 50%;" placeholder="Add Description" type="text">
+          </div>
+        </div>
+      </div> 
          <button id="save-button" disabled> Save</button>
       </div>
 

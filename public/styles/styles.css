@@ -44,7 +44,9 @@ a{
     flex-direction: column;
     
     
-  } 
+  }
+
+  /* , #custom-content div */
 
   .thin-line-container, .asset-footer{
     padding: 10px 30px ;
@@ -63,6 +65,8 @@ a{
   bottom: 0;
   background-color: #898787;
 }
+
+  /*common layout*/
 
   .main {
     display: flex;
@@ -88,7 +92,9 @@ a{
     /* padding: 10px; */
     width: 100%; /* Adjust the width based on your canvas width */
   }
+ 
 
+  
   .main-container {
     flex-grow: 1;
     position: relative; /*Added to enable positioning of the slider*/
@@ -121,6 +127,7 @@ a{
 
   .canvas {
     border: 2px solid #ccc;
+    /* border: none; */
     width: 500px;
     height: 300px;
     margin: 0 auto;
@@ -131,6 +138,7 @@ a{
     overflow: hidden;
     /* position: relative;
     z-index: -1; */
+    
 
   }
 
@@ -334,13 +342,41 @@ a{
 
   
   #asset-options.visibility{
-    display: block;
-  
+    display: flex;
+    flex-direction: column;
     z-index: 1;
 
   }
 
-  .scale-input{
+  .asset-input{
+    justify-content: flex-start;
+  }
+
+  .custom-container{
+   
+    display: flex;
+    flex-direction: column;
+  }
+  .canvas-container .asset-button{
+ 
+  }
+
+  #custom-content{
+
+    flex-grow: 1;
+   
+  }
+ 
+  
+  .profile .custom-container{
+    display: none;
+  }
+  .custom-container{
+    flex-grow: 1;
+  }
+
+
+  .desc-input{
     border: none;
     outline: none;
     background-color: rgb(217, 217, 217);
@@ -431,13 +467,15 @@ a{
   #save-button{
      
     width: 100%;
-    position: absolute;
-    bottom: 0;
     padding: 10px 0;
     font-size: large;
     background-color: #007bff;
     color: #525252;
     font-size: 14px;
+  }
+  .profile #save-button{
+    position: absolute; 
+     bottom: 0;
   }
 
   #save-button:disabled{
@@ -510,4 +548,24 @@ a{
   #image-preview.visibility{
     display: block;
   }
+
+
+  @media screen and (max-width: 900px) {
+     .nav-bar{
+      padding: 0;
+      height: 50px;
+      background-color: #525252;
+     }
+     .nav-end{
+      display: none;
+     }
+     .logo{
+       width: 40px;
+     }
+
+  }
+
+@media screen and (max-height:600px){
+  
+}
   

@@ -114,6 +114,36 @@ const modifyProfile = async (req, res) => {
       res.status(500).json({ success: false, message: "An error occurred" });
     }
   };
+
+  const getRecentProfile = async (req, res) => {
+    try {
+      // Query the profiles collection to get the first 6 profiles
+      const querySnapshot = await db.collection("profile")
+        .limit(6) // Limit the result to the first 6 profiles
+        .get();
+  
+      if (querySnapshot.empty) {
+   
+        throw new Error("No profiles found")
+      
+      }
+
+    
+  
+      const profilesData = [];
+      
+      // Iterate through the query snapshot and extract profile data
+      querySnapshot.forEach((doc) => {
+        profilesData.push({...doc.data(), id:doc.id});
+      });
+     
+      console.log(profilesData)
+      return profilesData ;
+    } catch (error) {
+      console.error(error);
+      throw new Error( "An error occurred" );
+    }
+  };
   
   
 
@@ -122,4 +152,5 @@ module.exports = {
     deleteProfile,
     modifyProfile,
     getProfile,
+    getRecentProfile,
 }

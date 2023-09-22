@@ -29,7 +29,7 @@ const deleteElement = async (req,res) => {
 const modifyElement = async(req,res) => {
 
     const {profileId,elementId} = req.query
-    const {color, imageUrl, name} = req.body
+    const {color, imageUrl, name, customSetting, deletedElementPropId} = req.body
 
     try {
         const profileRef = db.collection("profile").doc(profileId);
@@ -57,7 +57,24 @@ const modifyElement = async(req,res) => {
         if (imageUrl) {
           updatedData.imageUrl = imageUrl;
         }
+
         // ... other properties to update
+        if(customSetting){
+        
+          updatedData.customSetting = {...elementDoc.data().customSetting, ...customSetting}
+        }
+        if(deletedElementPropId){
+          const currenElemProp = elementDoc.data().customSetting
+          console.log(currenElemProp)
+          const customSetting = {}
+           for(let key in currenElemProp){
+             if(currenElemProp.hasOwnProperty(key) && key !== deletedElementPropId){
+              customSetting[key] = currenElemProp[key]
+             }
+           }
+           
+           updatedData.customSetting = customSetting
+        }
     
         if (Object.keys(updatedData).length === 0) {
           res.status(400).json({success:false, message: "provide one or more changes"})

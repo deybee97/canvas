@@ -2,7 +2,16 @@
 // Loop through the selected SVG elements
 svgElements.forEach((svgElement) => {
   // Do something with each SVG element
-  svgElement.addEventListener('click',()=>editToolFunctions(svgElement, iframeDoc))
+  svgElement.addEventListener('click',async()=>{
+        const element = await editToolFunctions(svgElement.id, iframeDoc)
+        console.log(element)
+        if(svgElement.id === "copy"){
+          addElementToPane(null,null,element.type, element.id)
+        }
+          
+        console.log(element)
+       
+  })
 });
 
 let initialScale = parseFloat(zoomRange.value);
@@ -142,9 +151,12 @@ if(profile){
     top: element.style.top,
     type: event.target.id,
     name: "New Element",
-    color: "#BEBCD3"
+    color: "#BEBCD3",
+  
   }
-  addedElements.push(elementData)
+
+  console.log(element)
+  addedElements.push({...elementData,element})
 
 
 
@@ -195,6 +207,13 @@ if(profile){
 //   })
   
 // }
+
+
+previewBtn.addEventListener('click',()=>{
+   
+  console.log("clicked")
+   window.location.href = `/profile/preview/${dynamicURL}`
+})
 
 
 Array.from(addElementButton).forEach((element)=> element.addEventListener('click', (event)=>{

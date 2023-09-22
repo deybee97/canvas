@@ -4,17 +4,39 @@
 // then change it back to what was there before, so you wont have to go through the stress of
 //resaving zero changes
 
-let settings = {
+
+//get selectedElement customSetting
+
+
+//this is because i have to delete an element in setting.customChange when I click the cancel button in uyils.js
+window.settings = {
 
  singularChange: {
-
+  
  },
  applyToAll: {
   
+ },
+ customChange: {
+
  }
 
-
 }
+
+
+customAssetBtn.addEventListener("click",()=>{
+
+  
+   createCustomSetting(customContent,null,null,(customChange)=>{
+    
+      settings.customChange = {...settings.customChange, ...customChange}
+      console.log(settings.customChange, customChange)
+   })
+    
+  //create custom content div 
+
+ 
+})
 
 
 
@@ -26,6 +48,7 @@ assetColor.addEventListener("change",(event)=>{
 })
 
 assetDesc.addEventListener("change",(event)=>{
+
     saveOptionButton.removeAttribute("disabled")
     settings.singularChange.name = event.target.value
 })
@@ -160,6 +183,9 @@ assetOptionsCancelButton.addEventListener("click",  resetOptionPane)
 
        localStorage.setItem('profile',JSON.stringify(profile))
 
+      
+      
+
        //save settings to database
        try {
         const res = await axios.put(`http://localhost:3000/api/v1/profile/settings?profileId=${dynamicURL}`,
@@ -171,7 +197,9 @@ assetOptionsCancelButton.addEventListener("click",  resetOptionPane)
          }
         )
         console.log(res)
-       
+        //change the elements in the iframe and in the pane
+
+
       } catch (error) {
        
       }
@@ -179,26 +207,74 @@ assetOptionsCancelButton.addEventListener("click",  resetOptionPane)
       
      }else{
 
-      console.log("entereed", selectedElementType )
+       
+      let newChanges = {
+      
+      }
+      
+      //remove item from pane 
+      paneElement = paneElement.filter(paneElement=>{
+        if(paneElement.id === selectedElementId){
+         paneElement.paneElement.remove()
+        }
+      })
+
+      
+      
+      // remove element from iframe 
+
+      const removedElement = addedElements.find(element=>element.id === selectedElementId)
+
+       
+      removedElement.element.remove()
+
+      
+      //update addedElements
        
        addedElements = addedElements.map(element=>{
           if(element.id === selectedElementId){
-            return {
+             
+            const newColor = settings.singularChange.color ? settings.singularChange.color : element.color
+             // create new element 
+            const newElement = createCircle(element.type, {top: element.top, left:element.left}, newColor)
+            
+            newElement.setAttribute("id", element.id)
+            //add element back to iframe
+            iframeDoc.body.appendChild(newElement);
+            //add event listerner for element
+            newElement.addEventListener('mousedown', window.handleSquareMouseDown);
+             
+             newChanges = {
               ...element,
-              ...settings.singularChange
+              ...settings.singularChange,
+              element: newElement,
+              customSetting: {
+                ...element.customSetting,
+                ...settings.customChange
+              }
             }
+            
+            return newChanges
           }else{
             return element
           }
        })
+      
+      
+      
+      console.log(newChanges)
+   
+       //add element back to pane
+      addElementToPane(null,newChanges)
 
        localStorage.setItem('addedElements',JSON.stringify(addedElements))
-
+    
        //save settings to database
        try {
          const res = await axios.put(`http://localhost:3000/api/v1/elements/settings?profileId=${dynamicURL}&elementId=${selectedElementId}`,
          {
-          ...settings.singularChange
+          ...settings.singularChange,
+          customSetting: settings.customChange
          },
           {
             "Content-Type":"application/json"
